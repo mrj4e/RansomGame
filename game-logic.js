@@ -83,14 +83,18 @@ var GameLogic = {
         if (!State.activeState.ransomEnabled) {
             return;
         }
-        let current = State.getEliminationAverage();
-        if (current == 99) {
-            State.activeState.lastTargetState = "";
-            State.activeState.ransomWarning = false;
-        } else {
-            State.activeState.lastTargetState = current + " / " + State.targetEliminationAverage;
-            State.activeState.ransomWarning = current < State.targetEliminationAverage;
-        }
+
+        State.activeState.lastTargetState = State.hearts;
+
+        // let current = State.getEliminationAverage();
+        // if (current == 99) {
+        //     State.activeState.lastTargetState = "";
+        //     State.activeState.ransomWarning = false;
+        // } else {
+        //     State.activeState.lastTargetState = current + " / " + State.targetEliminationAverage;
+        //     State.activeState.ransomWarning = current < State.targetEliminationAverage;
+        // }
+
         if (Header.updateCallback) {
             Header.updateCallback();
         }
@@ -100,14 +104,28 @@ var GameLogic = {
         if (!State.activeState.ransomEnabled) {
             return;
         }
-        let ave = State.getEliminationAverage();
-        if (ave < State.targetEliminationAverage) {
-            //DialogMessage.open("Punishment! Meet the ransom demands!");
-            let num = Math.max(1, Math.trunc(10 * (State.targetEliminationAverage - ave)));
-            //console.log(num);
-            State.activeState.freezeEvents += num;
+
+        //console.log(State.activeState.eliminations);
+        State.activeState.lastTargetHits = State.activeState.eliminations[State.blocktargetIndex];
+        //console.log(numAchieved);
+        State.activeState.eliminations = [0,0,0,0];
+        if (State.activeState.lastTargetHits < 1) {
+            State.activeState.freezeEvents += 1;
             State.activeState.freezeCount++;
+            State.hearts -= 1;
         }
+        if (State.activeState.lastTargetHits > 2) {
+            State.hearts += 1;
+        }
+
+        // let ave = State.getEliminationAverage();
+        // if (ave < State.targetEliminationAverage) {
+        //     //DialogMessage.open("Punishment! Meet the ransom demands!");
+        //     let num = Math.max(1, Math.trunc(10 * (State.targetEliminationAverage - ave)));
+        //     //console.log(num);
+        //     State.activeState.freezeEvents += num;
+        //     State.activeState.freezeCount++;
+        // }
 
         GameLogic.refreshTargetText();
     },
@@ -116,34 +134,37 @@ var GameLogic = {
         if (!State.activeState.ransomEnabled) {
             return;
         }
+
+        GameLogic.refreshTargetText();
+
         //console.log("setTarget");
-        let newTarget = 0;
-        if (State.score <= 30) {
-            newTarget = 0;
-        } else if (State.score <= 200) {
-            newTarget = 0.5;
-        } else if (State.score <= 300) {
-            newTarget = 0.8;
-        } else if (State.score <= 400) {
-            newTarget = 1.0;
-        } else {
-            newTarget = (11 + (Math.trunc(State.score / 500))) / 10;
-        }
-        if (newTarget != State.targetEliminationAverage) {
-            State.targetEliminationAverage = newTarget;
-            if (State.lastEliminationCounts.length == 0) {
-                State.lastEliminationCounts.push(newTarget);
-                State.lastEliminationCounts.push(newTarget);
-                State.lastEliminationCounts.push(newTarget);
-                State.lastEliminationCounts.push(newTarget);
-            }
-            GameLogic.refreshTargetText();
-            if (State.activeState.gameOver) {
-                GameLogic.restart(true);
-                return;
-            }
-            DialogMessage.open("Ransom is set at " + newTarget, true);
-        }
+        // let newTarget = 0;
+        // if (State.score <= 30) {
+        //     newTarget = 0;
+        // } else if (State.score <= 200) {
+        //     newTarget = 0.5;
+        // } else if (State.score <= 300) {
+        //     newTarget = 0.8;
+        // } else if (State.score <= 400) {
+        //     newTarget = 1.0;
+        // } else {
+        //     newTarget = (11 + (Math.trunc(State.score / 500))) / 10;
+        // }
+        // if (newTarget != State.targetEliminationAverage) {
+        //     State.targetEliminationAverage = newTarget;
+        //     if (State.lastEliminationCounts.length == 0) {
+        //         State.lastEliminationCounts.push(newTarget);
+        //         State.lastEliminationCounts.push(newTarget);
+        //         State.lastEliminationCounts.push(newTarget);
+        //         State.lastEliminationCounts.push(newTarget);
+        //     }
+        //     GameLogic.refreshTargetText();
+        //     if (State.activeState.gameOver) {
+        //         GameLogic.restart(true);
+        //         return;
+        //     }
+        //     DialogMessage.open("Ransom is set at " + newTarget, true);
+        // }
     },
 
     startFloatUpAnimationInstances: function(score, count) {

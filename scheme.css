@@ -219,6 +219,10 @@ table#board tr#row0 td {
   border-bottom: 2px solid white;
 }
 
+table#board td {
+  text-align: center;
+}
+
 table#board td.one1 {
   background-color: rgb(35, 213, 35);
   background-image: linear-gradient(to right, rgb(26, 201, 26) 0%, rgb(35, 213, 35) 20%, rgb(35, 213, 35) 80%, rgb(26, 201, 26) 100%);
@@ -282,35 +286,72 @@ table#board td.frozen {
   background-size: 0.315em 0.3em;
 }
 table#board td.one1.frozen {
-  background-image: radial-gradient(currentcolor 0, rgb(35, 213, 35) 0.12em);
+  background-image: radial-gradient(black 0, rgb(35, 213, 35) 0.12em);
 }
 table#board td.two1.frozen {
-  background-image: radial-gradient(currentcolor 0, rgb(135, 135, 254) 0.12em);
+  background-image: radial-gradient(black 0, rgb(135, 135, 254) 0.12em);
 }
 table#board td.two2.frozen {
-  background-image: radial-gradient(currentcolor 0, rgb(135, 135, 254) 0.12em);
+  background-image: radial-gradient(black 0, rgb(135, 135, 254) 0.12em);
 }
 table#board td.three1.frozen {
-  background-image: radial-gradient(currentcolor 0, rgb(196, 65, 196) 0.12em);
+  background-image: radial-gradient(black 0, rgb(196, 65, 196) 0.12em);
 }
 table#board td.three2.frozen {
-  background-image: radial-gradient(currentcolor 0, rgb(196, 65, 196) 0.12em);
+  background-image: radial-gradient(black 0, rgb(196, 65, 196) 0.12em);
 }
 table#board td.three3.frozen {
-  background-image: radial-gradient(currentcolor 0, rgb(196, 65, 196) 0.12em);
+  background-image: radial-gradient(black 0, rgb(196, 65, 196) 0.12em);
 }
 table#board td.four1.frozen {
-  background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
+  background-image: radial-gradient(black 0, rgb(248, 175, 39) 0.12em);
 }
 table#board td.four2.frozen {
-  background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
+  background-image: radial-gradient(black 0, rgb(248, 175, 39) 0.12em);
 }
 table#board td.four3.frozen {
-  background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
+  background-image: radial-gradient(black 0, rgb(248, 175, 39) 0.12em);
 }
 table#board td.four4.frozen {
+  background-image: radial-gradient(black 0, rgb(248, 175, 39) 0.12em);
+}
+
+table#board td.target {
+  color: rgb(249, 77, 77);
+}table#board td.target::before {
+  content: "\2665 ";
+}
+/* table#board td.one1.target {
+  background-image: radial-gradient(currentcolor 0, rgb(35, 213, 35) 0.12em);
+}
+table#board td.two1.target {
+  background-image: radial-gradient(currentcolor 0, rgb(135, 135, 254) 0.12em);
+}
+table#board td.two2.target {
+  background-image: radial-gradient(currentcolor 0, rgb(135, 135, 254) 0.12em);
+}
+table#board td.three1.target {
+  background-image: radial-gradient(currentcolor 0, rgb(196, 65, 196) 0.12em);
+}
+table#board td.three2.target {
+  background-image: radial-gradient(currentcolor 0, rgb(196, 65, 196) 0.12em);
+}
+table#board td.three3.target {
+  background-image: radial-gradient(currentcolor 0, rgb(196, 65, 196) 0.12em);
+}
+table#board td.four1.target {
   background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
 }
+table#board td.four2.target {
+  background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
+}
+table#board td.four3.target {
+  background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
+}
+table#board td.four4.target {
+  background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
+} */
+
 
 @keyframes whitetoblack {
   0% {color: white;}

@@ -41,6 +41,7 @@ var Process = {
         processed = processed ? processed : this.eliminate();
         processed = processed ? processed : this.spawn();
         processed = processed ? processed : this.freeze();
+        processed = processed ? processed : this.paintTargets();
         //processed = processed ? processed : this.reward();
 
         BoardHelper.isMoveAllowed = !processed;
@@ -79,6 +80,7 @@ var Process = {
                 } else {
                     //console.log("eval after move");
                     GameLogic.registerMove(State.activeState.prizeBlockDropped);
+                    Process.setTargets();
                     State.activeState.prizeBlockDropped = false;
                     State.moveCount++;
                     GameLogic.triggerSave();
@@ -237,6 +239,13 @@ var Process = {
         return false;
     },
 
+    paintTargets: function() {
+        $("#board td.target").removeClass("target");
+        const type = ["one","two","three","four"][State.blocktargetIndex];
+        $("#board td[class^=" + type + "]").addClass("target");
+        return false;
+    },
+
     reward: function() {
         if (State.activeState.rewardEvents < 0) {
             State.activeState.rewardEvents = 0;
@@ -270,6 +279,24 @@ var Process = {
         }
 
         return false;
+    },
+
+    setTargets: function() {
+        if (State.activeState.lastTargetHits > 0) State.blocktargetIndex += 1;
+        if (State.blocktargetIndex >= 4) State.blocktargetIndex = 0;
+
+        var numBlocks = 0;
+        let rows = $("#board tr");
+        for (let index = rows.length - 1; index > 0; index--) {
+            let cells = $(rows[index]).find("td");
+            let classes = getClasses(cells);
+            const type = ["one1","two1","three1","four1"][State.blocktargetIndex];
+            numBlocks += BoardHelper.countCellsOfType(classes, type);
+        }
+
+        State.activeState.ransomEnabled = numBlocks > 0;
+
+        Process.paintTargets();
     },
 
 }

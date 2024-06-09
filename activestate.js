@@ -22,5 +22,6 @@ class ActiveState {
         this.ransomEnabled = false;
         this.ransomWarning = false;
         this.gameOver = false;
+        this.lastTargetHits = 0;
     }
 }
