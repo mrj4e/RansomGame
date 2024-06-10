@@ -107,16 +107,18 @@ var GameLogic = {
 
         //console.log(State.activeState.eliminations);
         State.activeState.lastTargetHits = State.activeState.eliminations[State.blocktargetIndex];
+        const frozenEliminations = State.activeState.eliminations[4];
         //console.log(numAchieved);
-        State.activeState.eliminations = [0,0,0,0];
+        State.activeState.eliminations = [0,0,0,0,0];
         if (State.activeState.lastTargetHits < 1) {
             State.activeState.freezeEvents += 1;
             State.activeState.freezeCount++;
             State.hearts -= 1;
         }
-        if (State.activeState.lastTargetHits > 2) {
-            State.hearts += 1;
-        }
+        //if (State.activeState.lastTargetHits > 2) {
+        //    State.hearts += 1;
+        //}
+        State.hearts += (frozenEliminations / 10);
 
         // let ave = State.getEliminationAverage();
         // if (ave < State.targetEliminationAverage) {
