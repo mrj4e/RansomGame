@@ -54,6 +54,7 @@ var GameLogic = {
 
         //GameLogic.startFloatUpAnimationInstances(10, 4);
         GameLogic.evaluateTarget();
+        GameLogic.triggerExtraFreezeEvents();
 
         if (numAnimations > 0) {
             //GameLogic.startFloatUpAnimationInstances(scoreDelta, numAnimations);
@@ -134,6 +135,12 @@ var GameLogic = {
         // }
 
         GameLogic.refreshTargetText();
+    },
+
+    triggerExtraFreezeEvents: function() {
+        if (BoardHelper.getNextRandomNumber() < 0.1) {
+            State.activeState.freezeEvents++;
+        }
     },
 
     setTarget: function() {
