@@ -84,7 +84,7 @@ var GameLogic = {
             return;
         }
 
-        State.activeState.lastTargetState = State.hearts;
+        State.activeState.lastTargetState = "" + State.hearts + "." + State.heartDeltas;
 
         // let current = State.getEliminationAverage();
         // if (current == 99) {
@@ -113,12 +113,16 @@ var GameLogic = {
         if (State.activeState.lastTargetHits < 1) {
             State.activeState.freezeEvents += 1;
             State.activeState.freezeCount++;
-            State.hearts -= 1;
+            State.hearts--;
         }
         //if (State.activeState.lastTargetHits > 2) {
         //    State.hearts += 1;
         //}
-        State.hearts += (frozenEliminations / 10);
+        State.heartDeltas += frozenEliminations;
+        if (frozenEliminations >= 10) {
+            frozenEliminations -= 10;
+            State.hearts++;
+        }
 
         // let ave = State.getEliminationAverage();
         // if (ave < State.targetEliminationAverage) {
@@ -209,7 +213,9 @@ var GameLogic = {
         if (State.gameOn) {
             DialogConfirm.open(gameover ? "GAME OVER" : "Too hard?", "Reduce the score and clear the board?", function() {
                 State.clearState();
-                runGame();
+                //GameLogic.refreshTargetText();
+                //Header.update();
+                runGame(false);
             });
         } else {
             DialogConfirm.open("Try again?", "Clear the board to start again?", function() {

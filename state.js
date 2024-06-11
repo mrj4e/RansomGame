@@ -22,6 +22,7 @@ State = {
     olderRandomNumbers: "",
     blocktargetIndex: 0, //0=Green block, 1=Blue block, 2=Purple block, 3=Yellow block
     hearts: 5,
+    heartDeltas: 0,
 
     initForGame: function () {
         State.activeState = new ActiveState();
@@ -30,6 +31,7 @@ State = {
         State.score = 0;
         State.blocktargetIndex = 0;
         State.hearts = 5;
+        State.heartDeltas = 0;
         State.moveCount = 0;
         State.fallCount = 0;
         State.eliminateCount = 0;
@@ -139,6 +141,7 @@ State = {
         Board.setRows(Array(Board.numRows).fill(Array(8).fill("")));
         State.saveState();
         State.initForGame();
+        //console.log(State.hearts);
     },
 
     undo: function () {
