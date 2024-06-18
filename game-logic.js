@@ -84,7 +84,7 @@ var GameLogic = {
             return;
         }
 
-        State.activeState.lastTargetState = State.hearts;
+        State.activeState.lastTargetState = State.movesUntilFreeze;
 
         // let current = State.getEliminationAverage();
         // if (current == 99) {
@@ -101,6 +101,7 @@ var GameLogic = {
     },
 
     evaluateTarget: function() {
+        return;
         if (!State.activeState.ransomEnabled) {
             return;
         }

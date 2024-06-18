@@ -21,6 +21,7 @@ State = {
     lastRandomNumbers: "",
     olderRandomNumbers: "",
     blocktargetIndex: 0, //0=Green block, 1=Blue block, 2=Purple block, 3=Yellow block
+    movesUntilFreeze: 5,
     hearts: 5,
 
     initForGame: function () {
@@ -29,6 +30,7 @@ State = {
         State.gameOn = true;
         State.score = 0;
         State.blocktargetIndex = 0;
+        State.movesUntilFreeze = 5;
         State.hearts = 5;
         State.moveCount = 0;
         State.fallCount = 0;
@@ -47,6 +49,7 @@ State = {
         State.gameOn = false;
         State.score = 0;
         State.blocktargetIndex = 0;
+        State.movesUntilFreeze = 5;
         State.hearts = 5;
         State.moveCount = 0;
         State.fallCount = 0;
@@ -225,7 +228,7 @@ State = {
     },
 
     transformFromStateToString: function () {
-        return [State.score, State.moveCount, State.fallCount, State.eliminateCount, State.targetScore, State.targetMovesLeft, State.hearts, State.blocktargetIndex, State.lastEliminationCounts.join("/"), State.maxScore].join("|");
+        return [State.score, State.moveCount, State.fallCount, State.eliminateCount, State.targetScore, State.targetMovesLeft, State.hearts, State.movesUntilFreeze, State.lastEliminationCounts.join("/"), State.maxScore].join("|");
     },
     transformFromStringToState: function (str) {
         try {
@@ -238,7 +241,7 @@ State = {
             State.targetScore = arr[4] * 1 || 0;
             State.targetMovesLeft = arr[5] * 1 || 0;
             State.hearts = arr[6] * 1 || 0;
-            State.blocktargetIndex = arr[7] * 1 || 0;
+            State.movesUntilFreeze = arr[7] * 1 || 0;
             State.lastEliminationCounts = [];
             if (arr[6] && arr[6].length > 0) {
                 let temp = (arr[6].split("/") || []);

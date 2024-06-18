@@ -80,6 +80,7 @@ var Process = {
                 } else {
                     //console.log("eval after move");
                     GameLogic.registerMove(State.activeState.prizeBlockDropped);
+                    State.movesUntilFreeze--;
                     Process.setTargets();
                     State.activeState.prizeBlockDropped = false;
                     State.moveCount++;
@@ -131,10 +132,27 @@ var Process = {
 
         let cells = $("#board tr:nth-child(2)")[0].cells;
         let spawnClasses = BoardHelper.getSpawnDetails(cells);
+        let finalClasses = [];
 
         if (spawnClasses) {
+            for (let index = 0; index < spawnClasses.length; index++) {
+                finalClasses.push(spawnClasses[index]);
+            }
+
             State.activeState.spawnCount++;
-            Board.paintRow(getIds(cells), spawnClasses);
+            if (State.movesUntilFreeze <= 0) {
+                State.movesUntilFreeze = 5;
+                finalClasses = [];
+                for (let index = 0; index < spawnClasses.length; index++) {
+                    if (spawnClasses[index].length > 0)
+                        finalClasses.push(spawnClasses[index] + " frozen");
+                    else
+                        finalClasses.push("");
+                }
+            }
+
+            //console.log(finalClasses);
+            Board.paintRow(getIds(cells), finalClasses);
             State.activeState.afterSpawn = true;
             return true;
         }
@@ -196,6 +214,7 @@ var Process = {
     },
 
     freeze: function() {
+        return;
         if (State.activeState.freezeEvents <= 0) {
             return false;
         }
@@ -240,6 +259,7 @@ var Process = {
     },
 
     paintTargets: function() {
+        return;
         $("#board td.target").removeClass("target");
         const type = ["one","two","three","four"][State.blocktargetIndex];
         $("#board td[class^=" + type + "]").addClass("target");
@@ -282,6 +302,7 @@ var Process = {
     },
 
     setTargets: function() {
+        return;
         if (State.activeState.lastTargetHits > 0) State.blocktargetIndex += 1;
         if (State.blocktargetIndex >= 4) State.blocktargetIndex = 0;
 
