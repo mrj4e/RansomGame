@@ -58,9 +58,9 @@ var Board = {
         if (startupRows) {
             this.setRows(startupRows);
         } else {
-            if (State.gameOn) {
-                State.restoreState();
-            }
+            // if (State.gameOn) {
+            //     State.restoreState();
+            // }
             State.activeState.gameOver = Board.isGameOver();
             GameLogic.setTarget();
         }

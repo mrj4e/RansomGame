@@ -10,7 +10,7 @@ class ActiveState {
         this.mouseUpBlockPosition = -1;
         this.fallCountAfterMouseUp = 0;
         this.numFilledCells = 0;
-        this.eliminations = [0,0,0,0];
+        this.eliminations = [0,0,0,0,0];
         this.spawnCount = 0;
         this.freezeEvents = 0;
         this.rewardEvents = 0;

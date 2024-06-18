@@ -48,11 +48,17 @@ function setAppVersion() {
     $("#version").html(v);
 }
 
-function runGame() {
+function runGame(restore) {
     State.initForGame();
     Menu.hideMenu();
     /*State.init();*/
     Header.init();
     Process.init();
     Board.init();
+    if (restore) {
+        State.restoreState();
+    } else {
+        State.saveState();
+    }
+    GameLogic.refreshTargetText();
 }

@@ -176,6 +176,7 @@ var Process = {
                 State.activeState.eliminations[1] += BoardHelper.countCellsOfType(classes, "two1");
                 State.activeState.eliminations[2] += BoardHelper.countCellsOfType(classes, "three1");
                 State.activeState.eliminations[3] += BoardHelper.countCellsOfType(classes, "four1");
+                State.activeState.eliminations[4] += BoardHelper.countCellsOfType(classes, "1 frozen");
                 State.activeState.frozenCellCount = $("#board td.frozen").length;
                 // let prizeCount = BoardHelper.countCellsOfType(classes, "prize");;
                 // if (prizeCount > 0) {

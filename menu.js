@@ -20,7 +20,7 @@ var Menu = {
                 let action = $(e.target).closest("[action]").attr("action");
                 switch (action) {
                     case "game":
-                        runGame();
+                        runGame(true);
                         break;
                     case "practice":
                         PracticeSamples.setupSample(State.getLastChallengeId());

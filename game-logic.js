@@ -54,6 +54,7 @@ var GameLogic = {
 
         //GameLogic.startFloatUpAnimationInstances(10, 4);
         GameLogic.evaluateTarget();
+        GameLogic.triggerExtraFreezeEvents();
 
         if (numAnimations > 0) {
             //GameLogic.startFloatUpAnimationInstances(scoreDelta, numAnimations);
@@ -108,15 +109,21 @@ var GameLogic = {
 
         //console.log(State.activeState.eliminations);
         State.activeState.lastTargetHits = State.activeState.eliminations[State.blocktargetIndex];
+        const frozenEliminations = State.activeState.eliminations[4];
         //console.log(numAchieved);
-        State.activeState.eliminations = [0,0,0,0];
+        State.activeState.eliminations = [0,0,0,0,0];
         if (State.activeState.lastTargetHits < 1) {
             State.activeState.freezeEvents += 1;
             State.activeState.freezeCount++;
-            State.hearts -= 1;
+            State.hearts--;
         }
-        if (State.activeState.lastTargetHits > 2) {
-            State.hearts += 1;
+        //if (State.activeState.lastTargetHits > 2) {
+        //    State.hearts += 1;
+        //}
+        State.heartDeltas += frozenEliminations;
+        if (frozenEliminations >= 10) {
+            frozenEliminations -= 10;
+            State.hearts++;
         }
 
         // let ave = State.getEliminationAverage();
@@ -129,6 +136,12 @@ var GameLogic = {
         // }
 
         GameLogic.refreshTargetText();
+    },
+
+    triggerExtraFreezeEvents: function() {
+        if (BoardHelper.getNextRandomNumber() < 0.1) {
+            State.activeState.freezeEvents++;
+        }
     },
 
     setTarget: function() {
@@ -208,7 +221,9 @@ var GameLogic = {
         if (State.gameOn) {
             DialogConfirm.open(gameover ? "GAME OVER" : "Too hard?", "Reduce the score and clear the board?", function() {
                 State.clearState();
-                runGame();
+                //GameLogic.refreshTargetText();
+                //Header.update();
+                runGame(false);
             });
         } else {
             DialogConfirm.open("Try again?", "Clear the board to start again?", function() {
