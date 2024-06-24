@@ -54,7 +54,7 @@ var GameLogic = {
 
         //GameLogic.startFloatUpAnimationInstances(10, 4);
         GameLogic.evaluateTarget();
-        GameLogic.triggerExtraFreezeEvents();
+        //GameLogic.triggerExtraFreezeEvents();
 
         if (numAnimations > 0) {
             //GameLogic.startFloatUpAnimationInstances(scoreDelta, numAnimations);
@@ -102,6 +102,9 @@ var GameLogic = {
     },
 
     evaluateTarget: function() {
+        if (State.activeState.eliminationsAfterMoveCount == 0) {
+            State.activeState.freezeEvents += 1;
+        }
         return;
         if (!State.activeState.ransomEnabled) {
             return;

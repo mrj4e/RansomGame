@@ -215,7 +215,6 @@ var Process = {
     },
 
     freeze: function() {
-        return;
         if (State.activeState.freezeEvents <= 0) {
             return false;
         }
