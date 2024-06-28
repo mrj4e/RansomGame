@@ -31,7 +31,6 @@ State = {
         State.gameOn = true;
         State.score = 0;
         State.blocktargetIndex = 0;
-        State.movesUntilFreeze = 5;
         State.hearts = 5;
         State.heartDeltas = 0;
         State.moveCount = 0;
@@ -52,7 +51,6 @@ State = {
         State.gameOn = false;
         State.score = 0;
         State.blocktargetIndex = 0;
-        State.movesUntilFreeze = 5;
         State.hearts = 5;
         State.moveCount = 0;
         State.fallCount = 0;
@@ -127,25 +125,16 @@ State = {
     },
 
     clearState: function () {
-        //console.log("clearState");
+        State.score -= 100;
         //localStorage.removeItem("gameOnState");
-        if (State.score > 1200) {
-            State.score = State.score - 500;
-        } else if (State.score > 2200) {
-            State.score = State.score - 700;
-        } else if (State.score > 3200) {
-            State.score = State.score - 900;
-        } else if (State.score > 4200) {
-            State.score = State.score - 1100;
-        } else if (State.score > 6200) {
-            State.score = State.score - 1500;
-        } else {
+        if (State.score < 0) {
             State.score = 0
         }
         State.lastEliminationCounts = [];
         Board.setRows(Array(Board.numRows).fill(Array(8).fill("")));
+        GameLogic.refreshDifficulty();
         State.saveState();
-        State.initForGame();
+        //State.initForGame();
         //console.log(State.hearts);
     },
 

@@ -140,7 +140,7 @@ var Process = {
             }
 
             State.activeState.spawnCount++;
-            if (State.movesUntilFreeze <= 0) {
+            if (State.movesUntilFreeze == 0) {
                 finalClasses = [];
                 for (let index = 0; index < spawnClasses.length; index++) {
                     if (spawnClasses[index].length > 0)

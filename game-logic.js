@@ -81,10 +81,14 @@ var GameLogic = {
     },
 
     refreshDifficulty: function() {
-        if (State.score <= 30) {
+        if (State.score <= 50) {
             State.movesUntilFreeze = 10;
-        } else if (State.score <= 200) {
+        } else if (State.score <= 100) {
+            State.movesUntilFreeze = 9;
+        } else if (State.score <= 150) {
             State.movesUntilFreeze = 8;
+        } else if (State.score <= 200) {
+            State.movesUntilFreeze = 7;
         } else if (State.score <= 300) {
             State.movesUntilFreeze = 6;
         } else if (State.score <= 400) {
@@ -213,9 +217,9 @@ var GameLogic = {
         if (State.gameOn) {
             DialogConfirm.open(gameover ? "GAME OVER" : "Too hard?", "Reduce the score and clear the board?", function() {
                 State.clearState();
-                //GameLogic.refreshTargetText();
-                //Header.update();
-                runGame(false);
+                GameLogic.refreshTargetText();
+                Header.update();
+                //runGame(false);
             });
         } else {
             DialogConfirm.open("Try again?", "Clear the board to start again?", function() {
