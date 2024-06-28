@@ -43,6 +43,7 @@ State = {
         State.targetEliminationAverage = 0;
         State.activeState.gameOver = false;
         State.soundOn = State.getSoundStatus();
+        GameLogic.refreshDifficulty();
     },
 
     initForChallenge: function (challengeId, ransomEnabled) {
@@ -66,6 +67,7 @@ State = {
 
         localStorage.setItem("challengeId", "" + challengeId);
         State.soundOn = State.getSoundStatus();
+        GameLogic.refreshDifficulty();
     },
 
     getEliminationAverage: function () {
