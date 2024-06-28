@@ -80,6 +80,24 @@ var GameLogic = {
         State.saveState();
     },
 
+    refreshDifficulty: function() {
+        if (State.score <= 30) {
+            State.movesUntilFreeze = 10;
+        } else if (State.score <= 200) {
+            State.movesUntilFreeze = 8;
+        } else if (State.score <= 300) {
+            State.movesUntilFreeze = 6;
+        } else if (State.score <= 400) {
+            State.movesUntilFreeze = 5;
+        } else if (State.score <= 500) {
+            State.movesUntilFreeze = 4;
+        } else if (State.score <= 600) {
+            State.movesUntilFreeze = 3;
+        } else {
+            State.movesUntilFreeze = 2;
+        }
+    },
+
     refreshTargetText: function() {
         if (!State.activeState.ransomEnabled) {
             return;
