@@ -166,40 +166,11 @@ var GameLogic = {
     },
 
     setTarget: function() {
-        if (!State.activeState.ransomEnabled) {
-            return;
+        if (State.movesUntilFreeze < 0) {
+            GameLogic.refreshDifficulty();
         }
 
         GameLogic.refreshTargetText();
-
-        //console.log("setTarget");
-        // let newTarget = 0;
-        // if (State.score <= 30) {
-        //     newTarget = 0;
-        // } else if (State.score <= 200) {
-        //     newTarget = 0.5;
-        // } else if (State.score <= 300) {
-        //     newTarget = 0.8;
-        // } else if (State.score <= 400) {
-        //     newTarget = 1.0;
-        // } else {
-        //     newTarget = (11 + (Math.trunc(State.score / 500))) / 10;
-        // }
-        // if (newTarget != State.targetEliminationAverage) {
-        //     State.targetEliminationAverage = newTarget;
-        //     if (State.lastEliminationCounts.length == 0) {
-        //         State.lastEliminationCounts.push(newTarget);
-        //         State.lastEliminationCounts.push(newTarget);
-        //         State.lastEliminationCounts.push(newTarget);
-        //         State.lastEliminationCounts.push(newTarget);
-        //     }
-        //     GameLogic.refreshTargetText();
-        //     if (State.activeState.gameOver) {
-        //         GameLogic.restart(true);
-        //         return;
-        //     }
-        //     DialogMessage.open("Ransom is set at " + newTarget, true);
-        // }
     },
 
     startFloatUpAnimationInstances: function(score, count) {

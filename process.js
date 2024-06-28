@@ -81,7 +81,7 @@ var Process = {
                     //console.log("eval after move");
                     GameLogic.registerMove(State.activeState.prizeBlockDropped);
                     State.movesUntilFreeze--;
-                    Process.setTargets();
+                    GameLogic.setTarget();
                     State.activeState.prizeBlockDropped = false;
                     State.moveCount++;
                     GameLogic.triggerSave();
@@ -141,7 +141,6 @@ var Process = {
 
             State.activeState.spawnCount++;
             if (State.movesUntilFreeze <= 0) {
-                GameLogic.refreshDifficulty();
                 finalClasses = [];
                 for (let index = 0; index < spawnClasses.length; index++) {
                     if (spawnClasses[index].length > 0)
@@ -299,25 +298,6 @@ var Process = {
         }
 
         return false;
-    },
-
-    setTargets: function() {
-        return;
-        if (State.activeState.lastTargetHits > 0) State.blocktargetIndex += 1;
-        if (State.blocktargetIndex >= 4) State.blocktargetIndex = 0;
-
-        var numBlocks = 0;
-        let rows = $("#board tr");
-        for (let index = rows.length - 1; index > 0; index--) {
-            let cells = $(rows[index]).find("td");
-            let classes = getClasses(cells);
-            const type = ["one1","two1","three1","four1"][State.blocktargetIndex];
-            numBlocks += BoardHelper.countCellsOfType(classes, type);
-        }
-
-        State.activeState.ransomEnabled = numBlocks > 0;
-
-        Process.paintTargets();
     },
 
 }
