@@ -83,22 +83,31 @@ var GameLogic = {
     refreshDifficulty: function() {
         if (State.score <= 50) {
             State.movesUntilFreeze = 10;
+            ActiveState.level = 1;
         } else if (State.score <= 100) {
             State.movesUntilFreeze = 9;
+            ActiveState.level = 2;
         } else if (State.score <= 150) {
             State.movesUntilFreeze = 8;
+            ActiveState.level = 3;
         } else if (State.score <= 200) {
             State.movesUntilFreeze = 7;
+            ActiveState.level = 4;
         } else if (State.score <= 300) {
             State.movesUntilFreeze = 6;
+            ActiveState.level = 5;
         } else if (State.score <= 400) {
             State.movesUntilFreeze = 5;
-        } else if (State.score <= 500) {
-            State.movesUntilFreeze = 4;
+            ActiveState.level = 6;
         } else if (State.score <= 600) {
+            State.movesUntilFreeze = 4;
+            ActiveState.level = 7;
+        } else if (State.score <= 800) {
             State.movesUntilFreeze = 3;
+            ActiveState.level = 8;
         } else {
             State.movesUntilFreeze = 2;
+            ActiveState.level = 9;
         }
     },
 
@@ -107,7 +116,12 @@ var GameLogic = {
             return;
         }
 
-        State.activeState.lastTargetState = State.movesUntilFreeze;
+        if (State.movesUntilFreeze > 0) {
+            const temp = 'X'.repeat(State.movesUntilFreeze);
+            State.activeState.lastTargetState = temp.replaceAll('X', '&#1422;');
+        } else {
+            State.activeState.lastTargetState = "Freeze coming";
+        }
 
         // let current = State.getEliminationAverage();
         // if (current == 99) {
