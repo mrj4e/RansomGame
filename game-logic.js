@@ -100,7 +100,7 @@ var GameLogic = {
         const used = GameLogic.getMovesUntilFreeze() - State.movesUntilFreeze;
         const temp1 = 'X'.repeat(used);
         const temp2 = 'X'.repeat(State.movesUntilFreeze);
-        State.activeState.lastTargetState = temp1.replaceAll('X', '&#9899;') + temp2.replaceAll('X', '&#9898;');
+        State.activeState.lastTargetState = temp1.replaceAll('X', '<i class="fas fa-stroopwafel" action="heart"></i>') + temp2.replaceAll('X', '<i class="fas fa-circle" action="heart"></i>');
 
         // let current = State.getEliminationAverage();
         // if (current == 99) {

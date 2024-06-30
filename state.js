@@ -271,13 +271,14 @@ State = {
 
         try {
             str = str
-                .replaceAll("-", "frozen")
+                .replaceAll("-", " frozen")
                 .replaceAll("~", "one1")
                 .replaceAll("@", "two1").replaceAll("#", "two2")
                 .replaceAll("$", "three1").replaceAll("%", "three2").replaceAll("^", "three3")
                 .replaceAll("&", "four1").replaceAll("*", "four2").replaceAll("<", "four3").replaceAll(">", "four4");
 
-            let arr = str.split("|");
+                //console.log(str);
+                let arr = str.split("|");
             for (let index = 0; index < arr.length; index++) {
                 result.push(arr[index].split(","));
             }
