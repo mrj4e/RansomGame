@@ -1,2 +1,2 @@
-# RansomGame
-A strategy game of falling blocks, holding you ransom to how many rows you should eliminate.
+# Blockade Game
+A strategy game of falling blocks with frozen blocks.

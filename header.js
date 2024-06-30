@@ -46,7 +46,7 @@ var Header = {
     },
 
     update: function() {
-        Header.updateWith("Score " + State.score + " Level " + ActiveState.level, State.activeState.lastTargetState, true);
+        Header.updateWith("Score " + State.score, State.activeState.lastTargetState, true);
         //$("#topPanelRightBottom span").css("color", State.lastGameState.length == 0 ? "grey" : "white");
     },
 

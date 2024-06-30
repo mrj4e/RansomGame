@@ -57,9 +57,8 @@ function runGame(restore) {
     Board.init();
     if (restore) {
         State.restoreState();
-        const last = State.movesUntilFreeze;
-        GameLogic.refreshDifficulty();
-        State.movesUntilFreeze = last;
+        Board.timedClearAnimation();
+        GameLogic.refreshDifficulty(true);
     } else {
         State.saveState();
     }

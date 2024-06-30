@@ -70,7 +70,7 @@ var Process = {
             //If a move was made
             //console.log(State.activeState.mouseUpBlockPosition);
             if (State.activeState.mouseUpBlockPosition > -1 && State.activeState.mouseUpBlockPosition != State.activeState.mouseDownBlockPosition) {
-                Board.clearAnimateBlocks();
+                //Board.clearAnimateBlocks();
                 State.activeState.mouseUpBlockPosition = -1;
                 State.activeState.mouseDownBlockPosition = 0;
                 if (State.activeState.fallCountAfterMouseUp == 0) {
@@ -146,10 +146,11 @@ var Process = {
                 finalClasses = [];
                 for (let index = 0; index < spawnClasses.length; index++) {
                     if (spawnClasses[index].length > 0)
-                        finalClasses.push(spawnClasses[index] + " frozen");
+                        finalClasses.push(spawnClasses[index] + " frozen animateBlock");
                     else
                         finalClasses.push("");
                 }
+                Board.timedClearAnimation();
             }
 
             //console.log(finalClasses);
@@ -223,6 +224,8 @@ var Process = {
         let cells = Board.getMoveableCells();
         let animateDuration = Math.max(cells.length - 6, 5) * 40;
         State.activeState.freezeEvents--;
+        var clearAnimationTimer;
+        clearTimeout(clearAnimationTimer);
 
         if (!State.activeState.gameOver && cells.length > 0) {
             let randomIndex = Math.floor(Math.random() * cells.length);
@@ -237,6 +240,7 @@ var Process = {
             for (let index = 0; index < blockDetails.numCells; index++) {
                 classes[rowIndex + index] = classes[rowIndex + index] + " frozen animateBlock";
             }
+            Board.timedClearAnimation();
 
             //console.log(classes);
             let cell$ = $(cells[randomIndex]); 
@@ -253,7 +257,7 @@ var Process = {
             return true;
         }
 
-        Board.clearAnimateBlocks();
+        //Board.clearAnimateBlocks();
         //Sound.audioFreeze(false);
 
         return false;

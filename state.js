@@ -254,11 +254,15 @@ State = {
         }
         result = result
             .replace("|", "")
+            .replaceAll("move", "")
+            .replaceAll("animateBlock", "")
             .replaceAll("frozen", "-")
             .replaceAll("one1", "~")
             .replaceAll("two1", "@").replaceAll("two2", "#")
             .replaceAll("three1", "$").replaceAll("three2", "%").replaceAll("three3", "^")
-            .replaceAll("four1", "&").replaceAll("four2", "*").replaceAll("four3", "<").replaceAll("four4", ">");
+            .replaceAll("four1", "&").replaceAll("four2", "*").replaceAll("four3", "<").replaceAll("four4", ">")
+            .replaceAll(" ", "");
+        //console.log(result);
         return result;
     },
 

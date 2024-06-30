@@ -44,7 +44,7 @@ var TouchEvents = {
         this.finalMoveDelta = 0;
         if (e.target.className.length > 0) {
             if (e.target.className.indexOf("frozen") > -1) {
-                DialogMessage.open("As punishment, you can no longer move this block.", true);
+                //DialogMessage.open("As punishment, you can no longer move this block.", true);
                 return;
             }
             //console.log("mousedown");
@@ -53,11 +53,21 @@ var TouchEvents = {
             this.downX = this.hasTouchscreen ? e.touches[0].clientX : e.clientX;
             this.sourceIndex = $(this.sourceElement).index();
             this.sourceClass = this.sourceElement.className;
+            let moveDetails = BoardHelper.getMoveDetails(this.sourceIndex, this.sourceIndex, this.sourceClass);
+            //console.log("cellmousedown", moveDetails.sourceIndex, moveDetails.blockDetails.numCells);
             this.originalElements = $(this.sourceElement).siblings().addBack();
             this.originalIds = getIds(this.originalElements);
             this.originalClasses = getClasses(this.originalElements);
             State.activeState.mouseDownBlockPosition = BoardHelper.getBlockPosition(this.sourceIndex, this.sourceClass);
             State.activeState.afterSpawn = false;
+
+            for (let index = 0; index < this.originalClasses.length; index++) {
+                if (index >= moveDetails.sourceIndex && index < moveDetails.sourceIndex + moveDetails.blockDetails.numCells) {
+                    this.originalClasses[index] = this.originalClasses[index] + " move";
+                }
+            }
+            Board.paintRow(this.originalIds, this.originalClasses);
+
             //State.activeState.prizeBlockDropped = this.sourceClass.indexOf("prize") > -1;
             this.startMove();
         }
@@ -126,6 +136,7 @@ var TouchEvents = {
 
         //A move was made?
         //console.log("stopMove " + this.sourceIndex + " " + this.finalMoveDelta);
+        Board.clearMove();
         if (Math.abs(this.finalMoveDelta) > 0) {
             let targetIndex = this.sourceIndex + this.finalMoveDelta;
             //console.log("stopMove " + targetIndex);

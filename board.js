@@ -92,7 +92,9 @@ var Board = {
             $("#board tr:not(#row0)").height(cellSize);
         }
         $("#board").show();
-        $("#topPanelParent").css("width", $("#board").width() + "px");
+        setTimeout(() => {
+            $("#topPanelParent").css("width", $("#board").width() + "px");
+        })
 
 
         //Update animation positions
@@ -134,8 +136,25 @@ var Board = {
         //console.log(this.animationPositions);
     },
 
+    timedClearAnimation: function() {
+        setTimeout(() => {
+            if (Board.clearAnimateBlocks()) {
+                GameLogic.triggerSave();
+            }
+        }, 5000);
+    },
+
     clearAnimateBlocks: function() {
-        $(".animateBlock").removeClass("animateBlock");
+        var count = $(".animateBlock").length;
+        if (count > 0) {
+            $(".animateBlock").removeClass("animateBlock");
+            return true;
+        }
+        return false;
+    },
+
+    clearMove: function() {
+        $(".move").removeClass("move");
     },
 
     countFilledCells: function() {

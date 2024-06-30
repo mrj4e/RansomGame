@@ -80,35 +80,16 @@ var GameLogic = {
         State.saveState();
     },
 
-    refreshDifficulty: function() {
-        if (State.score <= 50) {
-            State.movesUntilFreeze = 10;
-            ActiveState.level = 1;
-        } else if (State.score <= 100) {
-            State.movesUntilFreeze = 9;
-            ActiveState.level = 2;
-        } else if (State.score <= 150) {
-            State.movesUntilFreeze = 8;
-            ActiveState.level = 3;
-        } else if (State.score <= 200) {
-            State.movesUntilFreeze = 7;
-            ActiveState.level = 4;
-        } else if (State.score <= 300) {
-            State.movesUntilFreeze = 6;
-            ActiveState.level = 5;
-        } else if (State.score <= 400) {
-            State.movesUntilFreeze = 5;
-            ActiveState.level = 6;
-        } else if (State.score <= 600) {
-            State.movesUntilFreeze = 4;
-            ActiveState.level = 7;
-        } else if (State.score <= 800) {
-            State.movesUntilFreeze = 3;
-            ActiveState.level = 8;
-        } else {
-            State.movesUntilFreeze = 2;
-            ActiveState.level = 9;
-        }
+    refreshDifficulty: function(onrestore = false) {
+        ActiveState.level = 1 + Math.trunc(State.score / 100);
+        //console.log(ActiveState.level);
+        if (ActiveState.level > 9) ActiveState.level = 9;
+        const value = GameLogic.getMovesUntilFreeze();
+        if (!onrestore || State.movesUntilFreeze > value) State.movesUntilFreeze = GameLogic.getMovesUntilFreeze();
+    },
+
+    getMovesUntilFreeze: function() {
+        return -1 * ActiveState.level + 11;
     },
 
     refreshTargetText: function() {
@@ -116,12 +97,10 @@ var GameLogic = {
             return;
         }
 
-        if (State.movesUntilFreeze > 0) {
-            const temp = 'X'.repeat(State.movesUntilFreeze);
-            State.activeState.lastTargetState = temp.replaceAll('X', '&#1422;');
-        } else {
-            State.activeState.lastTargetState = "Freeze coming";
-        }
+        const used = GameLogic.getMovesUntilFreeze() - State.movesUntilFreeze;
+        const temp1 = 'X'.repeat(used);
+        const temp2 = 'X'.repeat(State.movesUntilFreeze);
+        State.activeState.lastTargetState = temp1.replaceAll('X', '&#9899;') + temp2.replaceAll('X', '&#9898;');
 
         // let current = State.getEliminationAverage();
         // if (current == 99) {
