@@ -76,7 +76,6 @@ var GameLogic = {
             return;
         }
         //console.log("Saving");
-        GameLogic.setTarget();
         State.saveState();
     },
 
@@ -85,7 +84,7 @@ var GameLogic = {
         //console.log(ActiveState.level);
         if (ActiveState.level > 9) ActiveState.level = 9;
         const value = GameLogic.getMovesUntilFreeze();
-        if (!onrestore || State.movesUntilFreeze > value) State.movesUntilFreeze = GameLogic.getMovesUntilFreeze();
+        if (!onrestore || State.movesUntilFreeze > value || State.movesUntilFreeze < 0) State.movesUntilFreeze = GameLogic.getMovesUntilFreeze();
     },
 
     getMovesUntilFreeze: function() {

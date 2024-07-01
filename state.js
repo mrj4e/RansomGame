@@ -125,7 +125,7 @@ State = {
     },
 
     clearState: function () {
-        State.score -= 100;
+        State.score -= 200;
         //localStorage.removeItem("gameOnState");
         if (State.score < 0) {
             State.score = 0

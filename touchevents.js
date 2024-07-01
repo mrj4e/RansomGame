@@ -44,6 +44,7 @@ var TouchEvents = {
         this.finalMoveDelta = 0;
         if (e.target.className.length > 0) {
             if (e.target.className.indexOf("frozen") > -1) {
+                Process.flagBoardChanges = true;
                 //DialogMessage.open("As punishment, you can no longer move this block.", true);
                 return;
             }
@@ -131,6 +132,7 @@ var TouchEvents = {
         //console.log("startMove " + State.activeState.mouseDownBlockPosition);
     },
     stopMove: function() {
+        Process.flagBoardChanges = true;
         this.isMouseDown = false;
         BoardHelper.isBlockBeingMoved = false;
 

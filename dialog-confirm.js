@@ -17,6 +17,7 @@ var DialogConfirm = {
             draggable: false,
             resizable: false,
             autoOpen: false,
+            width: $("#menu>div").width() * 1.2 + "px",
             minHeight: "auto",
             show: {
                 effect: "slideDown",
@@ -32,7 +33,7 @@ var DialogConfirm = {
                 $("#overlay").html("");
             }
         })
-        .css("font-size", "1.5em");
+        .css("font-size", "2.2em");
 
         var parent = $("#dialogconfirm").parent();
         var buttons = parent.find("button");

@@ -28,14 +28,14 @@ var Header = {
                         break;
                 }
             });
-        $("#topPanelParent")
-            .off("click")
-            .on("click", function(e) {
-                e.stopPropagation();
-                if (State.activeState.ransomEnabled) {
-                    DialogMessage.open("The ransom demands elimination of " + State.targetEliminationAverage + " rows per move (average). You delivered " + State.getEliminationAverage() + ".", false);
-                }
-            });
+        // $("#topPanelParent")
+        //     .off("click")
+        //     .on("click", function(e) {
+        //         e.stopPropagation();
+        //         if (State.activeState.ransomEnabled) {
+        //             DialogMessage.open("The ransom demands elimination of " + State.targetEliminationAverage + " rows per move (average). You delivered " + State.getEliminationAverage() + ".", false);
+        //         }
+        //     });
     },
 
     triggerUpdate: function() {

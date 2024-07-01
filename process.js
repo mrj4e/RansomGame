@@ -12,6 +12,12 @@ var Process = {
         this.setup(true, true, true, 10);
         Header.updateCallback = Header.triggerUpdate;
         //this.freezeElement.loop = true;
+        setTimeout(() => {
+            State.activeState.gameOver = Board.isGameOver();
+            if (State.activeState.gameOver) {
+                GameLogic.restart(true);
+            }
+        }, 200);
     },
 
     setup: function(allowFalling, allowEliminating, allowSpawing, speedInterval) {
@@ -81,7 +87,8 @@ var Process = {
                     //console.log("eval after move");
                     GameLogic.registerMove(State.activeState.prizeBlockDropped);
                     State.movesUntilFreeze--;
-                    GameLogic.setTarget();
+                    if (State.movesUntilFreeze < 0) State.movesUntilFreeze = 0;
+                    GameLogic.refreshTargetText();
                     State.activeState.prizeBlockDropped = false;
                     State.moveCount++;
                     GameLogic.triggerSave();
@@ -143,6 +150,7 @@ var Process = {
             //console.log("Spawn", State.movesUntilFreeze);
             if (State.movesUntilFreeze == 0) {
                 State.movesUntilFreeze--;
+                GameLogic.setTarget();
                 finalClasses = [];
                 for (let index = 0; index < spawnClasses.length; index++) {
                     if (spawnClasses[index].length > 0)

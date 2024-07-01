@@ -18,12 +18,12 @@ var DialogAssistance = {
         }
 
         var buttons = {};
-        buttons.Ok = function() {
-            try {
-                $("#dialogassistance").dialog("close");
-            } catch {
-            }
-        };
+        // buttons.Ok = function() {
+        //     try {
+        //         $("#dialogassistance").dialog("close");
+        //     } catch {
+        //     }
+        // };
 
         $("#dialogassistance").dialog({
             title: "Assistance",

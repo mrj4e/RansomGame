@@ -472,6 +472,7 @@ table#board td.four1.prize, table#board td.four2.prize, table#board td.four3.pri
   background-color: #222228;
   color: white;
   font-weight: bold;
+  font-size: 2.2em;
 }
 
 .ui-dialog #trainingDialog.ui-dialog-content {
@@ -482,12 +483,12 @@ table#board td.four1.prize, table#board td.four2.prize, table#board td.four3.pri
 .ui-dialog .ui-dialog-buttonpane {
   padding-top: 0;
   padding-bottom: 0;
+  font-size: 2.2em;
 }
 
 .ui-dialog .ui-dialog-buttonpane button {
   background-color: #515050;
   color: white;
-  font-size: 1.4em;
   border: 1px solid white;
   border-right: 1px solid #a6a4a4;
   border-bottom: 1px solid #a6a4a4;
@@ -502,13 +503,12 @@ table#board td.four1.prize, table#board td.four2.prize, table#board td.four3.pri
 .ui-dialog .ui-dialog-titlebar-close {
   background-color: #515050;
   color: white;
-  font-size: 1.2em;
   border: 1px solid white;
   border-right: 1px solid #a6a4a4;
   border-bottom: 1px solid #a6a4a4;
   border-radius: 0.2em;
   top: 0.02em;
-  margin-top: 0.1em;
+  margin-top: 0.25em;
   margin-bottom: 0;
   padding: 0;
   width: 1.6em;
