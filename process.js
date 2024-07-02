@@ -85,12 +85,7 @@ var Process = {
                     GameLogic.triggerSave();
                 } else {
                     //console.log("eval after move");
-                    GameLogic.registerMove(State.activeState.prizeBlockDropped);
-                    State.movesUntilFreeze--;
-                    if (State.movesUntilFreeze < 0) State.movesUntilFreeze = 0;
-                    GameLogic.refreshTargetText();
-                    State.activeState.prizeBlockDropped = false;
-                    State.moveCount++;
+                    GameLogic.registerMove();
                     GameLogic.triggerSave();
                     if (Header.updateCallback) {
                         Header.updateCallback();
@@ -114,11 +109,6 @@ var Process = {
             let dropped = BoardHelper.transformRowDrop(cellsAbove, cellsBelow);
 
             if (dropped) {
-                if (State.activeState.fallCountAfterMouseUp == 0 && dropped.containsPrize) {
-                    //console.log("First fall with prize");
-                    State.activeState.prizeBlockDropped = true;
-                }
-
                 Sound.audioClick();
 
                 Board.paintRow(getIds(rows[index].cells), dropped.classesAbove);
@@ -148,9 +138,8 @@ var Process = {
 
             State.activeState.spawnCount++;
             //console.log("Spawn", State.movesUntilFreeze);
-            if (State.movesUntilFreeze == 0) {
-                State.movesUntilFreeze--;
-                GameLogic.setTarget();
+            if (State.activeState.nextSpawnIsFrozen > 0) {
+                State.activeState.nextSpawnIsFrozen--;
                 finalClasses = [];
                 for (let index = 0; index < spawnClasses.length; index++) {
                     if (spawnClasses[index].length > 0)
@@ -181,38 +170,15 @@ var Process = {
             let eliminateClasses = BoardHelper.getEliminations(cells);
             if (eliminateClasses) {
                 let classes = getClasses(cells);
-                //console.log(classes);
-                State.activeState.eliminations[0] += BoardHelper.countCellsOfType(classes, "one1");
-                State.activeState.eliminations[1] += BoardHelper.countCellsOfType(classes, "two1");
-                State.activeState.eliminations[2] += BoardHelper.countCellsOfType(classes, "three1");
-                State.activeState.eliminations[3] += BoardHelper.countCellsOfType(classes, "four1");
-                State.activeState.eliminations[4] += BoardHelper.countCellsOfType(classes, "1 frozen");
-                State.activeState.frozenCellCount = $("#board td.frozen").length;
-                // let prizeCount = BoardHelper.countCellsOfType(classes, "prize");;
-                // if (prizeCount > 0) {
-                //     console.log("Boom");
-                // }
+                GameLogic.registerElimination(index, classes);
 
                 for (let col = 1; col <= 8; col++) {
-                    // new ExplodeAnimation(State.eliminateCount, index, col, function() {
-                    //     if (col == 1) {
-                    //         Board.paintRow(getIds(cells), eliminateClasses);
-                    //     }
-                    // });
                     Sound.audioCrunch();
                     new CellFadeAnimation(index, function() {
                         //console.log("CellFadeAnimation complete");
                         Board.paintRow(getIds(cells), eliminateClasses);
                     });
                 }
-                State.eliminateCount++;
-                // if (!State.activeState.afterSpawn) {
-                //     //console.log("True elimination");
-                //     State.activeState.eliminationsAfterMoveCount++;
-                //     State.activeState.eliminationPositionsAfterMove.push(index);
-                // }
-                State.activeState.eliminationsAfterMoveCount++;
-                State.activeState.eliminationPositionsAfterMove.push(index);
 
                 //Trigger float up animations now
                 GameLogic.startFloatUpAnimationInstance(GameLogic.calcScoreDelta(), State.eliminateCount, index);

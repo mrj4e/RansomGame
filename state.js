@@ -1,11 +1,20 @@
+class GameState {
+    constructor() {
+        this.score = 0;
+        this.moveCount = 0;
+    }
+}
+
 State = {
     //Depends on board.js
 
+    gameState: new GameState(),
     soundOn: true,
     score: 0,
     maxScore: 0,
     targetScore: 0,
     targetMovesLeft: 0,
+    totalMoveCount: 0,
     moveCount: 0,
     fallCount: 0,
     eliminateCount: 0,
@@ -21,7 +30,7 @@ State = {
     lastRandomNumbers: "",
     olderRandomNumbers: "",
     blocktargetIndex: 0, //0=Green block, 1=Blue block, 2=Purple block, 3=Yellow block
-    movesUntilFreeze: 5,
+    movesUntilFreeze: 0,
     hearts: 5,
     heartDeltas: 0,
 
@@ -34,6 +43,7 @@ State = {
         State.hearts = 5;
         State.heartDeltas = 0;
         State.moveCount = 0;
+        State.totalMoveCount = 0;
         State.fallCount = 0;
         State.eliminateCount = 0;
         State.lastGameState = "";
@@ -125,12 +135,7 @@ State = {
     },
 
     clearState: function () {
-        State.score -= 200;
-        //localStorage.removeItem("gameOnState");
-        if (State.score < 0) {
-            State.score = 0
-        }
-        State.lastEliminationCounts = [];
+        State.initForGame();
         Board.setRows(Array(Board.numRows).fill(Array(8).fill("")));
         GameLogic.refreshDifficulty();
         State.saveState();
@@ -222,7 +227,7 @@ State = {
     },
 
     transformFromStateToString: function () {
-        return [State.score, State.moveCount, State.fallCount, State.eliminateCount, State.targetScore, State.targetMovesLeft, State.hearts, State.movesUntilFreeze, State.lastEliminationCounts.join("/"), State.maxScore].join("|");
+        return [State.score, State.moveCount, State.fallCount, State.eliminateCount, State.totalMoveCount, State.targetMovesLeft, State.hearts, State.movesUntilFreeze, State.lastEliminationCounts.join("/"), State.maxScore].join("|");
     },
     transformFromStringToState: function (str) {
         try {
@@ -232,7 +237,7 @@ State = {
             State.moveCount = arr[1] * 1 || 0;
             State.fallCount = arr[2] * 1 || 0;
             State.eliminateCount = arr[3] * 1 || 0;
-            State.targetScore = arr[4] * 1 || 0;
+            State.totalMoveCount = arr[4] * 1 || 0;
             State.targetMovesLeft = arr[5] * 1 || 0;
             State.hearts = arr[6] * 1 || 0;
             State.movesUntilFreeze = arr[7] * 1 || 0;

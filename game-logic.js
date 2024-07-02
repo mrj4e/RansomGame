@@ -34,11 +34,30 @@ var GameLogic = {
         return scoreDelta;
     },
 
-    registerMove: function(freeMove) {
-        //console.log("registerMove");
+    registerElimination: function(index, classes) {
+        State.activeState.eliminations[0] += BoardHelper.countCellsOfType(classes, "one1");
+        State.activeState.eliminations[1] += BoardHelper.countCellsOfType(classes, "two1");
+        State.activeState.eliminations[2] += BoardHelper.countCellsOfType(classes, "three1");
+        State.activeState.eliminations[3] += BoardHelper.countCellsOfType(classes, "four1");
+        State.activeState.eliminations[4] += BoardHelper.countCellsOfType(classes, "1 frozen");
+        State.activeState.frozenCellCount = $("#board td.frozen").length;
+
+        State.eliminateCount++;
+        State.activeState.eliminationsAfterMoveCount++;
+        State.activeState.eliminationPositionsAfterMove.push(index);
+
+        if (State.moveCount >= State.movesUntilFreeze) {
+            State.activeState.nextSpawnIsFrozen = 1;
+        }
+    },
+
+    registerMove: function() {
+        //console.log("registerMove before moveCount", State.moveCount);
         //console.log("Saving " + State.lastRandomNumbers);
         //console.log(State.activeState.eliminationsAfterMoveCount);
 
+        State.moveCount++;
+        State.totalMoveCount++;
         State.olderRandomNumbers = State.lastRandomNumbers;
         State.lastRandomNumbers = BoardHelper.randomNumbers.join(",");
 
@@ -53,8 +72,15 @@ var GameLogic = {
         //console.log(scoreDelta + " " + numAnimations);
 
         //GameLogic.startFloatUpAnimationInstances(10, 4);
-        GameLogic.evaluateTarget();
+        if (State.activeState.eliminationsAfterMoveCount == 0) {
+            //Register mistake
+            State.activeState.freezeEvents += 1;
+            if (State.moveCount >= State.movesUntilFreeze) {
+                State.activeState.nextSpawnIsFrozen++;
+            }
+        }
         //GameLogic.triggerExtraFreezeEvents();
+        GameLogic.setTarget();
 
         if (numAnimations > 0) {
             //GameLogic.startFloatUpAnimationInstances(scoreDelta, numAnimations);
@@ -78,17 +104,28 @@ var GameLogic = {
         //console.log("Saving");
         State.saveState();
     },
+    
+    setTarget: function() {
+        if (State.moveCount > State.movesUntilFreeze) {
+            GameLogic.refreshDifficulty();
+            State.moveCount = 1;
+        }
+
+        GameLogic.refreshTargetText();
+    },
 
     refreshDifficulty: function(onrestore = false) {
-        ActiveState.level = 1 + Math.trunc(State.score / 100);
-        //console.log(ActiveState.level);
-        if (ActiveState.level > 9) ActiveState.level = 9;
         const value = GameLogic.getMovesUntilFreeze();
-        if (!onrestore || State.movesUntilFreeze > value || State.movesUntilFreeze < 0) State.movesUntilFreeze = GameLogic.getMovesUntilFreeze();
+        //console.log("refreshDifficulty", value);
+        if (!onrestore || State.movesUntilFreeze > value || State.movesUntilFreeze < 0) {
+            State.movesUntilFreeze = GameLogic.getMovesUntilFreeze();
+        }
     },
 
     getMovesUntilFreeze: function() {
-        return -1 * ActiveState.level + 11;
+        if (State.totalMoveCount < 10) return 9;
+        if (State.totalMoveCount > 80) return 2;
+        return 10 - Math.trunc(State.totalMoveCount / 10);
     },
 
     refreshTargetText: function() {
@@ -96,9 +133,9 @@ var GameLogic = {
             return;
         }
 
-        const used = GameLogic.getMovesUntilFreeze() - State.movesUntilFreeze;
-        const temp1 = 'X'.repeat(used);
-        const temp2 = 'X'.repeat(State.movesUntilFreeze);
+        //const used = GameLogic.getMovesUntilFreeze() - State.movesUntilFreeze;
+        const temp1 = 'X'.repeat(State.moveCount);
+        const temp2 = 'X'.repeat(State.movesUntilFreeze - State.moveCount);
         State.activeState.lastTargetState = temp1.replaceAll('X', '<i class="fas fa-stroopwafel" action="heart"></i>') + temp2.replaceAll('X', '<i class="fas fa-circle" action="heart"></i>');
 
         // let current = State.getEliminationAverage();
@@ -115,58 +152,11 @@ var GameLogic = {
         }
     },
 
-    evaluateTarget: function() {
-        if (State.activeState.eliminationsAfterMoveCount == 0) {
-            State.activeState.freezeEvents += 1;
-        }
-        return;
-        if (!State.activeState.ransomEnabled) {
-            return;
-        }
-
-        //console.log(State.activeState.eliminations);
-        State.activeState.lastTargetHits = State.activeState.eliminations[State.blocktargetIndex];
-        const frozenEliminations = State.activeState.eliminations[4];
-        //console.log(numAchieved);
-        State.activeState.eliminations = [0,0,0,0,0];
-        if (State.activeState.lastTargetHits < 1) {
-            State.activeState.freezeEvents += 1;
-            State.activeState.freezeCount++;
-            State.hearts--;
-        }
-        //if (State.activeState.lastTargetHits > 2) {
-        //    State.hearts += 1;
-        //}
-        State.heartDeltas += frozenEliminations;
-        if (frozenEliminations >= 10) {
-            frozenEliminations -= 10;
-            State.hearts++;
-        }
-
-        // let ave = State.getEliminationAverage();
-        // if (ave < State.targetEliminationAverage) {
-        //     //DialogMessage.open("Punishment! Meet the ransom demands!");
-        //     let num = Math.max(1, Math.trunc(10 * (State.targetEliminationAverage - ave)));
-        //     //console.log(num);
-        //     State.activeState.freezeEvents += num;
-        //     State.activeState.freezeCount++;
-        // }
-
-        GameLogic.refreshTargetText();
-    },
 
     triggerExtraFreezeEvents: function() {
         if (BoardHelper.getNextRandomNumber() < 0.1) {
             State.activeState.freezeEvents++;
         }
-    },
-
-    setTarget: function() {
-        if (State.movesUntilFreeze < 0) {
-            GameLogic.refreshDifficulty();
-        }
-
-        GameLogic.refreshTargetText();
     },
 
     startFloatUpAnimationInstances: function(score, count) {

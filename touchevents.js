@@ -68,8 +68,6 @@ var TouchEvents = {
                 }
             }
             Board.paintRow(this.originalIds, this.originalClasses);
-
-            //State.activeState.prizeBlockDropped = this.sourceClass.indexOf("prize") > -1;
             this.startMove();
         }
     },

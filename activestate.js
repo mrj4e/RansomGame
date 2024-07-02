@@ -6,7 +6,6 @@ class ActiveState {
         this.eliminationPositionsAfterMove = [];
         this.freeMoveCount = 0;
         this.mouseDownBlockPosition = 0;
-        this.prizeBlockDropped = false;
         this.mouseUpBlockPosition = -1;
         this.fallCountAfterMouseUp = 0;
         this.numFilledCells = 0;
@@ -24,5 +23,6 @@ class ActiveState {
         this.gameOver = false;
         this.lastTargetHits = 0;
         this.level = 0;
+        this.nextSpawnIsFrozen = 0;
     }
 }
