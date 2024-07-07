@@ -11,6 +11,7 @@ var DialogOptions = {
     open: function() {
         var text = $("#options").html()
             .replace("[[topscore]]", State.getMaxScore())
+            .replace("[[topmovecount]]", State.getMaxScoreTotalMoveCount())
             .replace("[[currentscore]]", State.getGameScore())
             .replace("[[currentchallenge]]", State.getAchievedChallengeId() + 1)
             .replace("[[soundstatus]]", State.getSoundStatus() ? "On" : "Off");

@@ -9,9 +9,20 @@ var DialogAssistance = {
     },
 
     open: function(undoAvailable) {
+        //console.log("Calc", State.maxScore, State.maxScoreTotalMoveCount, State.score, State.totalMoveCount);
+        const summary = State.maxScoreTotalMoveCount == State.totalMoveCount ? "This is your best game so far" : "So far this is [[percent]]% [[betterworse]] than your best game of [[bestscore]] in [[bestmoves]] moves";
+        const percentBetter = State.getImprovementPercentage();
         var text = $("#assistance").html()
             .replace("[[undo]]", "You may undo the last move")
-            .replace("[[mode]]", State.activeState.gameOn ? "game" : "this challenge");
+            .replace("[[mode]]", State.activeState.gameOn ? "game" : "this challenge")
+            .replace("[[score]]", State.score)
+            .replace("[[moves]]", State.totalMoveCount)
+            .replace("[[summary]]", summary)
+            .replace("[[bestscore]]", State.maxScore)
+            .replace("[[bestmoves]]", State.maxScoreTotalMoveCount)
+            .replace("[[percent]]", Math.abs(percentBetter))
+            .replace("[[betterworse]]", (percentBetter >= 0 ? "better" : "worse"));
+
         $("#overlay").html('<div id="dialogassistance">' + text + '</div>');
         if (!undoAvailable) {
             $("#overlay .undo").hide();

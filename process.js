@@ -61,9 +61,9 @@ var Process = {
                 //console.log("Board changes");
                 Process.flagBoardChanges = false;
 
-                if (Header.updateCallback) {
-                    Header.updateCallback();
-                }
+                // if (Header.updateCallback) {
+                //     Header.updateCallback();
+                // }
                 GameLogic.triggerSave();
     
                 State.activeState.gameOver = Board.isGameOver();
@@ -86,9 +86,9 @@ var Process = {
                     //console.log("eval after move");
                     GameLogic.registerMove();
                     GameLogic.triggerSave();
-                    if (Header.updateCallback) {
-                        Header.updateCallback();
-                    }
+                    // if (Header.updateCallback) {
+                    //     Header.updateCallback();
+                    // }
                 }
                 State.activeState.numFilledCells = Board.countFilledCells();
             }

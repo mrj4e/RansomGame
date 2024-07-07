@@ -197,8 +197,9 @@ var GameLogic = {
 
     restart: function(gameover) {
         if (State.activeState.gameOn) {
-            DialogConfirm.open(gameover ? "GAME OVER" : "Too hard?", "Reduce the score and clear the board?", function() {
+            DialogConfirm.open(gameover ? "GAME OVER" : "Too hard?", "Start again and see if you can beat you personal best?", function() {
                 State.clearState();
+                Board.adjustSize();
                 GameLogic.refreshTargetText();
                 Header.update();
                 //runGame(false);

@@ -46,7 +46,10 @@ var Header = {
     },
 
     update: function() {
-        Header.updateWith("Score " + State.score, State.activeState.lastTargetState, true);
+        const percentBetter = State.getImprovementPercentage();
+        const sign = percentBetter >= 0 ? "+" : "-";
+        const text = "PB" + (State.maxScoreTotalMoveCount == State.totalMoveCount ? "" : sign + Math.abs(percentBetter) + "%");
+        Header.updateWith("Score " + State.score + " " + text, State.activeState.lastTargetState, true);
     },
 
     updateWith: function(leftTop, rightTop, hasLifeLine) {

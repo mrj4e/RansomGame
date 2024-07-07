@@ -1,19 +1,19 @@
 State = {
     //Depends on board.js
 
+    activeState: new ActiveState(),
     soundOn: true,
     score: 0,
-    maxScore: 0,
-    targetScore: 0,
     totalMoveCount: 0,
     moveCount: 0,
     eliminateCount: 0,
     lastChallengeId: 0,
-    activeState: new ActiveState(),
     eliminationPositionsAfterMove: [],
     lastEliminationCounts: [],
     targetEliminationAverage: 0,
     movesUntilFreeze: 0,
+    maxScore: 0,
+    maxScoreTotalMoveCount: 0,
 
     initForGame: function () {
         State.activeState = new ActiveState();
@@ -140,6 +140,7 @@ State = {
         if (State.activeState.gameOn) {
             if (State.score > State.maxScore) {
                 State.maxScore = State.score;
+                State.maxScoreTotalMoveCount = State.totalMoveCount;
             }
             let s = State.transformFromBoardToString(Board.getRows()) + "__" + State.transformFromStateToString();
             let p = localStorage.getItem("gameState") ?? "";
@@ -173,6 +174,18 @@ State = {
         State.restoreState();
         return State.maxScore;
     },
+    getMaxScoreTotalMoveCount: function () {
+        State.restoreState();
+        return State.maxScoreTotalMoveCount;
+    },
+
+    getImprovementPercentage: function () {
+        const bestRate = State.maxScoreTotalMoveCount > 0 ? State.maxScore / State.maxScoreTotalMoveCount : 0;
+        const thisRate = State.totalMoveCount > 0 ? State.score / State.totalMoveCount : 0;
+        var percentBetter = bestRate > 0 ? Math.round(100 * (thisRate / bestRate - 1)) : 0;
+        //console.log("Calc", bestRate, thisRate, percentBetter);
+        return percentBetter;
+    },
 
     restoreState: function () {
         //console.log("restoreState");
@@ -197,7 +210,7 @@ State = {
     },
 
     transformFromStateToString: function () {
-        return [State.score, State.moveCount, State.eliminateCount, State.totalMoveCount, State.movesUntilFreeze, State.lastEliminationCounts.join("/"), State.maxScore].join("|");
+        return [State.score, State.moveCount, State.eliminateCount, State.totalMoveCount, State.movesUntilFreeze, State.lastEliminationCounts.join("/"), State.maxScore, State.maxScoreTotalMoveCount].join("|");
     },
     transformFromStringToState: function (str) {
         let arr = str.split("|");
@@ -220,6 +233,7 @@ State = {
             State.movesUntilFreeze = getNumber();
             const lastEliminationCounts = getString();
             State.maxScore = getNumber();
+            State.maxScoreTotalMoveCount = getNumber();
 
             State.lastEliminationCounts = [];
             if (lastEliminationCounts && lastEliminationCounts.length > 0) {
