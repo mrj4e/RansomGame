@@ -80,9 +80,9 @@ var TouchEvents = {
             this.stopMove();
         }
         if (this.isMouseDown) {
-            //console.log(e.touches[0].clientX + " " + this.downX + " " + State.cellWidth);
+            //console.log(e.touches[0].clientX + " " + this.downX + " " + State.activeState.cellWidth);
             let thisX = this.hasTouchscreen ? e.touches[0].clientX : e.clientX;
-            this.moveDelta = Math.floor(0.5 + (thisX - this.downX) / State.cellWidth);
+            this.moveDelta = Math.floor(0.5 + (thisX - this.downX) / State.activeState.cellWidth);
             //console.log(this.moveDelta);
             //console.log(this.sourceElement);
             let targetIndex = this.sourceIndex + this.moveDelta;

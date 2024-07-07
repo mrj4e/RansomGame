@@ -58,7 +58,7 @@ var Board = {
         if (startupRows) {
             this.setRows(startupRows);
         } else {
-            // if (State.gameOn) {
+            // if (State.activeState.gameOn) {
             //     State.restoreState();
             // }
             State.activeState.gameOver = Board.isGameOver();
@@ -83,7 +83,7 @@ var Board = {
         let wd = w / 8;
         //console.log(hd + " " + wd);
         cellSize = Math.floor(Math.min(hd, wd) - 0.4);
-        State.cellWidth = cellSize;
+        State.activeState.cellWidth = cellSize;
         //console.log(cellSize);
         //console.log($("#board td").width());
         if ($("#board td").width() != cellSize) {

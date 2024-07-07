@@ -61,7 +61,7 @@ var DialogOptions = {
                     DialogOptions.reload();
                     break;
                 case "copy":
-                    navigator.clipboard.writeText(location.protocol + "//" + location.host + location.pathname + "?s=" + btoa(localStorage.getItem("gameOnState")));
+                    navigator.clipboard.writeText(location.protocol + "//" + location.host + location.pathname + "?s=" + btoa(localStorage.getItem("gameState")));
                     DialogMessage.open("Game URL copied to clipboard", true);
                     break;
                 default:

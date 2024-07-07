@@ -1,53 +1,31 @@
-class GameState {
-    constructor() {
-        this.score = 0;
-        this.moveCount = 0;
-    }
-}
-
 State = {
     //Depends on board.js
 
-    gameState: new GameState(),
     soundOn: true,
     score: 0,
     maxScore: 0,
     targetScore: 0,
-    targetMovesLeft: 0,
     totalMoveCount: 0,
     moveCount: 0,
-    fallCount: 0,
     eliminateCount: 0,
     lastChallengeId: 0,
     activeState: new ActiveState(),
     eliminationPositionsAfterMove: [],
     lastEliminationCounts: [],
     targetEliminationAverage: 0,
-    cellWidth: 0,
-    gameOn: true,
-    timer: null,
-    lastGameState: "",
-    lastRandomNumbers: "",
-    olderRandomNumbers: "",
-    blocktargetIndex: 0, //0=Green block, 1=Blue block, 2=Purple block, 3=Yellow block
     movesUntilFreeze: 0,
-    hearts: 5,
-    heartDeltas: 0,
 
     initForGame: function () {
         State.activeState = new ActiveState();
         State.activeState.ransomEnabled = true;
-        State.gameOn = true;
+        State.activeState.gameOn = true;
         State.score = 0;
-        State.blocktargetIndex = 0;
         State.hearts = 5;
-        State.heartDeltas = 0;
         State.moveCount = 0;
         State.totalMoveCount = 0;
-        State.fallCount = 0;
+        State.activeState.fallCount = 0;
         State.eliminateCount = 0;
-        State.lastGameState = "";
-        State.targetMovesLeft = 0;
+        State.activeState.lastGameState = "";
         State.lastEliminationCounts = [];
         State.targetEliminationAverage = 0;
         State.activeState.gameOver = false;
@@ -58,12 +36,11 @@ State = {
     initForChallenge: function (challengeId, ransomEnabled) {
         State.activeState = new ActiveState();
         State.activeState.ransomEnabled = ransomEnabled;
-        State.gameOn = false;
+        State.activeState.gameOn = false;
         State.score = 0;
-        State.blocktargetIndex = 0;
         State.hearts = 5;
         State.moveCount = 0;
-        State.fallCount = 0;
+        State.activeState.fallCount = 0;
         State.eliminateCount = 0;
         State.lastChallengeId = challengeId;
         State.activeState.gameOver = false;
@@ -140,18 +117,17 @@ State = {
         GameLogic.refreshDifficulty();
         State.saveState();
         //State.initForGame();
-        //console.log(State.hearts);
     },
 
     undo: function () {
-        let p = State.lastGameState;
+        let p = State.activeState.lastGameState;
         if (p.length > 1) {
-            State.lastGameState = "";
-            //console.log("Using " + State.olderRandomNumbers);
-            BoardHelper.randomNumbers = State.olderRandomNumbers.split(",");
-            State.lastRandomNumbers = State.olderRandomNumbers;
-            State.olderRandomNumbers = "";
-            localStorage.setItem("gameOnState", p);
+            State.activeState.lastGameState = "";
+            //console.log("Using " + State.activeState.olderRandomNumbers);
+            BoardHelper.randomNumbers = State.activeState.olderRandomNumbers.split(",");
+            State.activeState.lastRandomNumbers = State.activeState.olderRandomNumbers;
+            State.activeState.olderRandomNumbers = "";
+            localStorage.setItem("gameState", p);
             State.restoreFromString(p);
             //console.log("p=" + p);
         } else {
@@ -161,16 +137,16 @@ State = {
 
     saveState: function () {
         //console.log("saveState");
-        if (State.gameOn) {
+        if (State.activeState.gameOn) {
             if (State.score > State.maxScore) {
                 State.maxScore = State.score;
             }
             let s = State.transformFromBoardToString(Board.getRows()) + "__" + State.transformFromStateToString();
-            let p = localStorage.getItem("gameOnState") ?? "";
+            let p = localStorage.getItem("gameState") ?? "";
             if (s != p) {
                 //Avoid setting last game state unless a move was made
-                State.lastGameState = p;
-                localStorage.setItem("gameOnState", s);
+                State.activeState.lastGameState = p;
+                localStorage.setItem("gameState", s);
                 //console.log("p=" + p);
                 //console.log("s=" + s);
             }
@@ -184,7 +160,7 @@ State = {
 
     getGameScore: function () {
         //console.log("getGameScore");
-        let str = localStorage.getItem("gameOnState");
+        let str = localStorage.getItem("gameState");
         let parts = str.split("__");
         if (parts[1].length > 0) {
             let arr = parts[1].split("|");
@@ -194,19 +170,13 @@ State = {
     },
 
     getMaxScore: function () {
-        //console.log("getGameScore");
-        let str = localStorage.getItem("gameOnState");
-        let parts = str.split("__");
-        if (parts[1].length > 0) {
-            let arr = parts[1].split("|");
-            return arr[7] * 1 || 0;
-        }
-        return 0;
+        State.restoreState();
+        return State.maxScore;
     },
 
     restoreState: function () {
         //console.log("restoreState");
-        let str = localStorage.getItem("gameOnState");
+        let str = localStorage.getItem("gameState");
         if (str) {
             State.restoreFromString(str);
         }
@@ -227,26 +197,35 @@ State = {
     },
 
     transformFromStateToString: function () {
-        return [State.score, State.moveCount, State.fallCount, State.eliminateCount, State.totalMoveCount, State.targetMovesLeft, State.hearts, State.movesUntilFreeze, State.lastEliminationCounts.join("/"), State.maxScore].join("|");
+        return [State.score, State.moveCount, State.eliminateCount, State.totalMoveCount, State.movesUntilFreeze, State.lastEliminationCounts.join("/"), State.maxScore].join("|");
     },
     transformFromStringToState: function (str) {
+        let arr = str.split("|");
+        var index = 0;
+        function getNumber() {
+            const value = arr[index] * 1 || 0;
+            index++;
+            return value;
+        }
+        function getString() {
+            const value = arr[index];
+            index++;
+            return value;
+        }
         try {
-            let arr = str.split("|");
-            State.score = arr[0] * 1 || 0;
-            State.score = arr[0] * 1 || 0;
-            State.moveCount = arr[1] * 1 || 0;
-            State.fallCount = arr[2] * 1 || 0;
-            State.eliminateCount = arr[3] * 1 || 0;
-            State.totalMoveCount = arr[4] * 1 || 0;
-            State.targetMovesLeft = arr[5] * 1 || 0;
-            State.hearts = arr[6] * 1 || 0;
-            State.movesUntilFreeze = arr[7] * 1 || 0;
+            State.score = getNumber();
+            State.moveCount = getNumber();
+            State.eliminateCount = getNumber();
+            State.totalMoveCount = getNumber();
+            State.movesUntilFreeze = getNumber();
+            const lastEliminationCounts = getString();
+            State.maxScore = getNumber();
+
             State.lastEliminationCounts = [];
-            if (arr[6] && arr[6].length > 0) {
-                let temp = (arr[6].split("/") || []);
+            if (lastEliminationCounts && lastEliminationCounts.length > 0) {
+                let temp = (lastEliminationCounts.split("/") || []);
                 State.lastEliminationCounts = temp.map(str => str.length == 0 ? 0 : parseInt(str));
             }
-            State.maxScore = arr[7] * 1 || 0;
         } catch {
             console.log("Not able to restore score state");
         }

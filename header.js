@@ -20,7 +20,7 @@ var Header = {
                         break;
                 
                     case "heart":
-                        DialogAssistance.open(State.lastGameState.length > 1);
+                        DialogAssistance.open(State.activeState.lastGameState.length > 1);
                         break;
 
                     default:
@@ -47,7 +47,6 @@ var Header = {
 
     update: function() {
         Header.updateWith("Score " + State.score, State.activeState.lastTargetState, true);
-        //$("#topPanelRightBottom span").css("color", State.lastGameState.length == 0 ? "grey" : "white");
     },
 
     updateWith: function(leftTop, rightTop, hasLifeLine) {

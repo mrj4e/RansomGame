@@ -185,7 +185,7 @@ PracticeSamples.samples.push([
         if (State.activeState.freeMoveCount > 0) {
             PracticeSamples.completeTask(0);
         }
-        if (State.fallCount > 0) {
+        if (State.activeState.fallCount > 0) {
             PracticeSamples.completeTask(1);
         }
     },

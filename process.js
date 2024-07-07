@@ -47,7 +47,6 @@ var Process = {
         processed = processed ? processed : this.eliminate();
         processed = processed ? processed : this.spawn();
         processed = processed ? processed : this.freeze();
-        processed = processed ? processed : this.paintTargets();
         //processed = processed ? processed : this.reward();
 
         BoardHelper.isMoveAllowed = !processed;
@@ -113,7 +112,7 @@ var Process = {
 
                 Board.paintRow(getIds(rows[index].cells), dropped.classesAbove);
                 Board.paintRow(getIds(rows[index + 1].cells), dropped.classesBelow);
-                State.fallCount++;
+                State.activeState.fallCount++;
                 State.activeState.fallCountAfterMouseUp++;
                 //console.log("fall");
                 return true;
@@ -234,14 +233,6 @@ var Process = {
         //Board.clearAnimateBlocks();
         //Sound.audioFreeze(false);
 
-        return false;
-    },
-
-    paintTargets: function() {
-        return;
-        $("#board td.target").removeClass("target");
-        const type = ["one","two","three","four"][State.blocktargetIndex];
-        $("#board td[class^=" + type + "]").addClass("target");
         return false;
     },
 

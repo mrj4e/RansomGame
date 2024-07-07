@@ -11,7 +11,7 @@ var DialogAssistance = {
     open: function(undoAvailable) {
         var text = $("#assistance").html()
             .replace("[[undo]]", "You may undo the last move")
-            .replace("[[mode]]", State.gameOn ? "game" : "this challenge");
+            .replace("[[mode]]", State.activeState.gameOn ? "game" : "this challenge");
         $("#overlay").html('<div id="dialogassistance">' + text + '</div>');
         if (!undoAvailable) {
             $("#overlay .undo").hide();

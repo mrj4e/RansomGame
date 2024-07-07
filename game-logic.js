@@ -3,7 +3,7 @@ var GameLogic = {
     //Called by process.js
 
     init: function() {
-        State.lastRandomNumbers = BoardHelper.randomNumbers.join(",");
+        State.activeState.lastRandomNumbers = BoardHelper.randomNumbers.join(",");
     },
 
     calcScoreDelta: function() {
@@ -53,13 +53,13 @@ var GameLogic = {
 
     registerMove: function() {
         //console.log("registerMove before moveCount", State.moveCount);
-        //console.log("Saving " + State.lastRandomNumbers);
+        //console.log("Saving " + State.activeState.lastRandomNumbers);
         //console.log(State.activeState.eliminationsAfterMoveCount);
 
         State.moveCount++;
         State.totalMoveCount++;
-        State.olderRandomNumbers = State.lastRandomNumbers;
-        State.lastRandomNumbers = BoardHelper.randomNumbers.join(",");
+        State.activeState.olderRandomNumbers = State.activeState.lastRandomNumbers;
+        State.activeState.lastRandomNumbers = BoardHelper.randomNumbers.join(",");
 
         State.lastEliminationCounts.push(State.activeState.eliminationsAfterMoveCount);
         while (State.lastEliminationCounts.length > 10) {
@@ -89,8 +89,8 @@ var GameLogic = {
 
     triggerSave: function () {
         //console.log("triggerSave");
-        window.clearTimeout(State.timer);
-        State.timer = window.setTimeout(function () {
+        window.clearTimeout(State.activeState.timer);
+        State.activeState.timer = window.setTimeout(function () {
             GameLogic.considerSave();
         }, 300);
     },
@@ -196,7 +196,7 @@ var GameLogic = {
     },
 
     restart: function(gameover) {
-        if (State.gameOn) {
+        if (State.activeState.gameOn) {
             DialogConfirm.open(gameover ? "GAME OVER" : "Too hard?", "Reduce the score and clear the board?", function() {
                 State.clearState();
                 GameLogic.refreshTargetText();

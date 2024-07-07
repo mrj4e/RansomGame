@@ -8,9 +8,9 @@ $(function() {
     let s = location.search.split("s=")[1];
     if (s) {
         if (s == "clear") {
-            localStorage.setItem("gameOnState", "");
+            localStorage.setItem("gameState", "");
         } else {
-            localStorage.setItem("gameOnState", atob(s));
+            localStorage.setItem("gameState", atob(s));
         }
         location.href = location.protocol + "//" + location.host + location.pathname;
     }

@@ -24,5 +24,12 @@ class ActiveState {
         this.lastTargetHits = 0;
         this.level = 0;
         this.nextSpawnIsFrozen = 0;
+        this.fallCount = 0;
+        this.cellWidth = 0;
+        this.lastGameState = "";
+        this.gameOn = true;
+        this.timer = null;
+        this.lastRandomNumbers = "";
+        this.olderRandomNumbers = "";
     }
 }
