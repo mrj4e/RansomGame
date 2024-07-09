@@ -92,7 +92,7 @@ var GameLogic = {
         window.clearTimeout(State.activeState.timer);
         State.activeState.timer = window.setTimeout(function () {
             GameLogic.considerSave();
-        }, 300);
+        }, 800);
     },
 
     considerSave: function() {
