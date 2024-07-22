@@ -18,6 +18,10 @@ var Process = {
                 GameLogic.restart(true);
             }
         }, 200);
+
+        // setInterval(() => {
+        //     console.log("State.nextSpawnIsFrozen = ", State.nextSpawnIsFrozen);
+        // }, 2000);
     },
 
     setup: function(allowFalling, allowEliminating, allowSpawing, speedInterval) {
@@ -137,8 +141,9 @@ var Process = {
 
             State.activeState.spawnCount++;
             //console.log("Spawn", State.movesUntilFreeze);
-            if (State.activeState.nextSpawnIsFrozen > 0) {
-                State.activeState.nextSpawnIsFrozen--;
+            if (State.nextSpawnIsFrozen > 0) {
+                //console.log("X State.nextSpawnIsFrozen = ", State.nextSpawnIsFrozen);
+                State.nextSpawnIsFrozen--;
                 finalClasses = [];
                 for (let index = 0; index < spawnClasses.length; index++) {
                     if (spawnClasses[index].length > 0)

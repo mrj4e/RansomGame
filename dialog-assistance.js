@@ -13,7 +13,7 @@ var DialogAssistance = {
         const summary = State.maxScoreTotalMoveCount == State.totalMoveCount ? "This is your best game so far" : "So far this is [[percent]]% [[betterworse]] than your best game of [[bestscore]] in [[bestmoves]] moves";
         const percentBetter = State.getImprovementPercentage();
         var text = $("#assistance").html()
-            .replace("[[undo]]", "You may undo the last move")
+            //.replace("[[undo]]", "You may undo the last move")
             .replace("[[mode]]", State.activeState.gameOn ? "game" : "this challenge")
             .replace("[[score]]", State.score)
             .replace("[[moves]]", State.totalMoveCount)
@@ -69,14 +69,14 @@ var DialogAssistance = {
                     BoardHelper.generateSocialMediaPost();
                     DialogMessage.open("A screenshot was copied to your clipboard", false);
                     break;
-                case "undo":
-                    $(".ui-dialog.dialogoptions").remove();
-                    $("#overlay").html("");
-                    State.undo();
-                    Header.update();
-                    State.activeState.gameOver = Board.isGameOver();
-                    GameLogic.refreshTargetText();
-                    break;
+                // case "undo":
+                //     $(".ui-dialog.dialogoptions").remove();
+                //     $("#overlay").html("");
+                //     State.undo();
+                //     Header.update();
+                //     State.activeState.gameOver = Board.isGameOver();
+                //     GameLogic.refreshTargetText();
+                //     break;
                 case "restart":
                     $(".ui-dialog.dialogoptions").remove();
                     $("#overlay").html("");

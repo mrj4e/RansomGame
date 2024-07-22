@@ -47,7 +47,7 @@ var GameLogic = {
         State.activeState.eliminationPositionsAfterMove.push(index);
 
         if (State.moveCount >= State.movesUntilFreeze) {
-            State.activeState.nextSpawnIsFrozen = 1;
+            State.nextSpawnIsFrozen = 1;
         }
     },
 
@@ -55,6 +55,20 @@ var GameLogic = {
         //console.log("registerMove before moveCount", State.moveCount);
         //console.log("Saving " + State.activeState.lastRandomNumbers);
         //console.log(State.activeState.eliminationsAfterMoveCount);
+
+        if (State.activeState.eliminationsAfterMoveCount == 0) {
+            //Register mistake
+            DialogConfirm.open("NO ELIMINATIONS", "No rows eliminated. Are you sure?", function() {
+                //console.log("yes");
+                State.activeState.freezeEvents += 3;
+            }, function() {
+                //console.log("no");
+                State.undo();
+                Header.update();
+                GameLogic.refreshTargetText();
+            });
+            return;
+        }
 
         State.moveCount++;
         State.totalMoveCount++;
@@ -66,25 +80,18 @@ var GameLogic = {
             State.lastEliminationCounts.shift();
         }
         //console.log(State.lastEliminationCounts);
-        var numAnimations = State.activeState.eliminationsAfterMoveCount;
+        //var numAnimations = State.activeState.eliminationsAfterMoveCount;
         //let plus = Math.pow(State.activeState.eliminationsAfterMoveCount, 2);
         //let delta = -1 + plus;
         //console.log(scoreDelta + " " + numAnimations);
 
         //GameLogic.startFloatUpAnimationInstances(10, 4);
-        if (State.activeState.eliminationsAfterMoveCount == 0) {
-            //Register mistake
-            State.activeState.freezeEvents += 1;
-            if (State.moveCount >= State.movesUntilFreeze) {
-                State.activeState.nextSpawnIsFrozen++;
-            }
-        }
         //GameLogic.triggerExtraFreezeEvents();
         GameLogic.setTarget();
 
-        if (numAnimations > 0) {
+        //if (numAnimations > 0) {
             //GameLogic.startFloatUpAnimationInstances(scoreDelta, numAnimations);
-        }
+        //}
     },
 
     triggerSave: function () {

@@ -1,6 +1,8 @@
 State = {
     //Depends on board.js
 
+    //,,@,#,,,,|,,&,*,<,>,,|,,$,%,^,,,|&,*,<,>,,@,#,|,,,$,%,^,,~|,,,$,%,^,,~|@,#,~,,&,*,<,>|&,*,<,>,,@,#,|@,#,$,%,^,,~,|$,%,^,&,*,<,>,|$,%,^,&,*,<,>,|&,*,<,>,,,@,#|,,$,%,^,@,#,~__1|9|1|0|9||209|97
+
     activeState: new ActiveState(),
     soundOn: true,
     score: 0,
@@ -14,6 +16,7 @@ State = {
     movesUntilFreeze: 0,
     maxScore: 0,
     maxScoreTotalMoveCount: 0,
+    nextSpawnIsFrozen: 0,
 
     initForGame: function () {
         State.activeState = new ActiveState();
@@ -29,6 +32,7 @@ State = {
         State.lastEliminationCounts = [];
         State.targetEliminationAverage = 0;
         State.activeState.gameOver = false;
+        State.nextSpawnIsFrozen = 0;
         State.soundOn = State.getSoundStatus();
         GameLogic.refreshDifficulty();
     },
@@ -44,6 +48,7 @@ State = {
         State.eliminateCount = 0;
         State.lastChallengeId = challengeId;
         State.activeState.gameOver = false;
+        State.nextSpawnIsFrozen = 0;
         if (ransomEnabled) {
             State.score = 185;
             State.lastEliminationCounts = [1, 1, 1, 1, 0, 1];
@@ -190,6 +195,7 @@ State = {
     restoreState: function () {
         //console.log("restoreState");
         let str = localStorage.getItem("gameState");
+        //str = ",,@,#,,,,|,,&,*,<,>,,|,,$,%,^,,,|&,*,<,>,,@,#,|,,,$,%,^,,~|,,,$,%,^,,~|@,#,~,,&,*,<,>|&,*,<,>,,@,#,|@,#,$,%,^,,~,|$,%,^,&,*,<,>,|$,%,^,&,*,<,>,|&,*,<,>,,,@,#|,,$,%,^,@,#,~__1|8|1|0|9||209|97|0";
         if (str) {
             State.restoreFromString(str);
         }
@@ -210,7 +216,7 @@ State = {
     },
 
     transformFromStateToString: function () {
-        return [State.score, State.moveCount, State.eliminateCount, State.totalMoveCount, State.movesUntilFreeze, State.lastEliminationCounts.join("/"), State.maxScore, State.maxScoreTotalMoveCount].join("|");
+        return [State.score, State.moveCount, State.eliminateCount, State.totalMoveCount, State.movesUntilFreeze, State.lastEliminationCounts.join("/"), State.maxScore, State.maxScoreTotalMoveCount, State.nextSpawnIsFrozen].join("|");
     },
     transformFromStringToState: function (str) {
         let arr = str.split("|");
@@ -234,6 +240,7 @@ State = {
             const lastEliminationCounts = getString();
             State.maxScore = getNumber();
             State.maxScoreTotalMoveCount = getNumber();
+            State.nextSpawnIsFrozen = getNumber();
 
             State.lastEliminationCounts = [];
             if (lastEliminationCounts && lastEliminationCounts.length > 0) {

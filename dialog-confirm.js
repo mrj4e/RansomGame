@@ -1,6 +1,6 @@
 var DialogConfirm = {
     
-    open: function(title, message, callback) {
+    open: function(title, message, callbackYes, callbackNo) {
         $("#overlay").html('<div id="dialogconfirm">' + message + '</div>');
 
         var buttons = {};
@@ -8,7 +8,12 @@ var DialogConfirm = {
             "Yes": function() {
                 $(".ui-dialog.dialogconfirm").remove();
                 $("#overlay").html("");
-                callback();
+                callbackYes();
+            },
+            "No": function() {
+                $(".ui-dialog.dialogconfirm").remove();
+                $("#overlay").html("");
+                callbackNo();
             }
         }
 
