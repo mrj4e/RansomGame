@@ -58,7 +58,7 @@ var GameLogic = {
 
         if (State.activeState.eliminationsAfterMoveCount == 0) {
             //Register mistake
-            DialogConfirm.open("NO ELIMINATIONS", "No rows eliminated. Are you sure?", function() {
+            DialogConfirm.open("Oops!", "No rows eliminated. Are you sure?", function() {
                 //console.log("yes");
                 State.activeState.freezeEvents += 3;
             }, function() {
