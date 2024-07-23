@@ -193,6 +193,22 @@ var Board = {
         }
     },
 
+    paintHighlight: function(startIndex, endIndex) {
+        this.clearHighlight();
+        for (let index = 0; index < 8; index++) {
+            if (index >= startIndex && index < endIndex) {
+                let id = "cell0_" + index;
+                $("#" + id).addClass("highlight");
+            }
+        }
+    },
+    clearHighlight: function() {
+        for (let index = 0; index < 8; index++) {
+            let id = "cell0_" + index;
+            $("#" + id).removeClass();
+        }
+    },
+
     getMoveableCells: function () {
         return $("#board td[class$=1]:not(frozen):not(prize)");
     },

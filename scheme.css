@@ -205,7 +205,7 @@ table#board tr {
 table#board tr td {
   width: 60px;
   border: 2px solid white;
-  color: black;
+  color: transparent;
 }
 table#board tr#row0 {
   background: #2f2f2f;
@@ -221,7 +221,14 @@ table#board tr#row0 td {
 table#board td {
   text-align: center;
   font-family: "Font Awesome 5 Free";
+  font-size: 0.7em;
+  font-weight: 800;
+  padding-bottom: 0.15em;
 }
+table#board tr:not(#row0) td::before {
+  content: "\f362";
+}
+
 
 table#board td.one1 {
   background-color: rgb(35, 213, 35);
@@ -282,98 +289,23 @@ table#board td.four1.elimination, table#board td.four4.elimination {
   background-image: none;
 }
 
-/*
-table#board td.frozen {
-  background-size: 0.315em 0.3em;
-}
-table#board td.one1.frozen {
-  background-image: radial-gradient(black 0, rgb(35, 213, 35) 0.12em);
-}
-table#board td.two1.frozen {
-  background-image: radial-gradient(black 0, rgb(135, 135, 254) 0.12em);
-}
-table#board td.two2.frozen {
-  background-image: radial-gradient(black 0, rgb(135, 135, 254) 0.12em);
-}
-table#board td.three1.frozen {
-  background-image: radial-gradient(black 0, rgb(196, 65, 196) 0.12em);
-}
-table#board td.three2.frozen {
-  background-image: radial-gradient(black 0, rgb(196, 65, 196) 0.12em);
-}
-table#board td.three3.frozen {
-  background-image: radial-gradient(black 0, rgb(196, 65, 196) 0.12em);
-}
-table#board td.four1.frozen {
-  background-image: radial-gradient(black 0, rgb(248, 175, 39) 0.12em);
-}
-table#board td.four2.frozen {
-  background-image: radial-gradient(black 0, rgb(248, 175, 39) 0.12em);
-}
-table#board td.four3.frozen {
-  background-image: radial-gradient(black 0, rgb(248, 175, 39) 0.12em);
-}
-table#board td.four4.frozen {
-  background-image: radial-gradient(black 0, rgb(248, 175, 39) 0.12em);
-}
-*/
 
-table#board td.frozen {
-  color: black;
-  font-size: 0.8em;
-  font-weight: 900;
-  padding-bottom: 0.15em;
+table#board td.highlight {
+  background-color: yellow;
 }
-table#board td.frozen::before {
+
+table#board tr:not(#row0) td.frozen {
+  color: black;
+}
+table#board tr:not(#row0) td.frozen::before {
   content: "\f023";
 }
 
-table#board td.move {
+table#board tr:not(#row0) td.move {
   color: black;
-  font-size: 0.8em;
-  font-weight: 900;
-  padding-bottom: 0.15em;
 }
-table#board td.move::before {
+/* table#board tr:not(#row0) td.move::before {
   content: "\f362";
-}
-
-
-table#board td.target {
-  color: rgb(249, 77, 77);
-}
-table#board td.target::before {
-  content: "\2665 ";
-}
-/* table#board td.one1.target {
-  background-image: radial-gradient(currentcolor 0, rgb(35, 213, 35) 0.12em);
-}
-table#board td.two1.target {
-  background-image: radial-gradient(currentcolor 0, rgb(135, 135, 254) 0.12em);
-}
-table#board td.two2.target {
-  background-image: radial-gradient(currentcolor 0, rgb(135, 135, 254) 0.12em);
-}
-table#board td.three1.target {
-  background-image: radial-gradient(currentcolor 0, rgb(196, 65, 196) 0.12em);
-}
-table#board td.three2.target {
-  background-image: radial-gradient(currentcolor 0, rgb(196, 65, 196) 0.12em);
-}
-table#board td.three3.target {
-  background-image: radial-gradient(currentcolor 0, rgb(196, 65, 196) 0.12em);
-}
-table#board td.four1.target {
-  background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
-}
-table#board td.four2.target {
-  background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
-}
-table#board td.four3.target {
-  background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
-}
-table#board td.four4.target {
-  background-image: radial-gradient(currentcolor 0, rgb(248, 175, 39) 0.12em);
 } */
 
 
@@ -397,38 +329,6 @@ table#board td.animateBlock {
   animation-iteration-count: infinite;
   animation-direction: alternate-reverse;
 }
-
-
-table#board td.prize {
-  background-size: 50% 50%;
-  background-repeat: no-repeat;
-  background-position: 0.29em 0.5em;
-}
-
-table#board td.one1.prize {
-  background-image: radial-gradient(circle at 70% 20%, white, white 20%, transparent 20%),
-              radial-gradient(circle at 70% 50%, white, white 15%, transparent 15%),
-              radial-gradient(circle at 70% 70%, white, white 10%, rgb(35, 213, 35) 10%);
-}
-
-table#board td.two1.prize, table#board td.two2.prize {
-  background-image: radial-gradient(circle at 70% 20%, white, white 20%, transparent 20%),
-              radial-gradient(circle at 70% 50%, white, white 15%, transparent 15%),
-              radial-gradient(circle at 70% 70%, white, white 10%, rgb(135, 135, 254) 10%);
-}
-
-table#board td.three1.prize, table#board td.three2.prize, table#board td.three3.prize {
-  background-image: radial-gradient(circle at 70% 20%, white, white 20%, transparent 20%),
-              radial-gradient(circle at 70% 50%, white, white 15%, transparent 15%),
-              radial-gradient(circle at 70% 70%, white, white 10%, rgb(196, 65, 196) 10%);
-}
-
-table#board td.four1.prize, table#board td.four2.prize, table#board td.four3.prize, table#board td.four4.prize {
-  background-image: radial-gradient(circle at 70% 20%, white, white 20%, transparent 20%),
-              radial-gradient(circle at 70% 50%, white, white 15%, transparent 15%),
-              radial-gradient(circle at 70% 70%, white, white 10%, rgb(248, 175, 39) 10%);
-}
-
 
 
 #bottomPanel {

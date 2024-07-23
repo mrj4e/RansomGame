@@ -67,6 +67,7 @@ var TouchEvents = {
                     this.originalClasses[index] = this.originalClasses[index] + " move";
                 }
             }
+            Board.paintHighlight(moveDetails.sourceIndex, moveDetails.sourceIndex + moveDetails.blockDetails.numCells);
             Board.paintRow(this.originalIds, this.originalClasses);
             this.startMove();
         }
@@ -94,6 +95,7 @@ var TouchEvents = {
                 //console.log(newClasses);
                 if (newClasses) {
                     this.finalMoveDelta = moveDetails.targetIndex - moveDetails.sourceIndex;
+                    Board.paintHighlight(moveDetails.targetIndex, moveDetails.targetIndex + moveDetails.blockDetails.numCells);
                     Board.paintRow(this.originalIds, newClasses);
                     //this.sourceElement = e.target;
                 }
@@ -136,6 +138,7 @@ var TouchEvents = {
 
         //A move was made?
         //console.log("stopMove " + this.sourceIndex + " " + this.finalMoveDelta);
+        Board.clearHighlight();
         Board.clearMove();
         if (Math.abs(this.finalMoveDelta) > 0) {
             let targetIndex = this.sourceIndex + this.finalMoveDelta;
