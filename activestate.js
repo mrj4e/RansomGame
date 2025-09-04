@@ -31,5 +31,6 @@ class ActiveState {
         this.timer = null;
         this.lastRandomNumbers = "";
         this.olderRandomNumbers = "";
+        this.alreadyFrozenThisTurn = false;
     }
 }

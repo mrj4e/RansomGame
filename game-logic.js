@@ -46,7 +46,8 @@ var GameLogic = {
         State.activeState.eliminationsAfterMoveCount++;
         State.activeState.eliminationPositionsAfterMove.push(index);
 
-        if (State.moveCount >= State.movesUntilFreeze) {
+        if (State.moveCount >= State.movesUntilFreeze && !State.activeState.alreadyFrozenThisTurn) {
+            State.activeState.alreadyFrozenThisTurn = true;
             State.nextSpawnIsFrozen = 1;
         }
     },
@@ -67,9 +68,10 @@ var GameLogic = {
                 Header.update();
                 GameLogic.refreshTargetText();
             });
-            return;
+            //return;
         }
 
+        State.activeState.alreadyFrozenThisTurn = false;
         State.moveCount++;
         State.totalMoveCount++;
         State.activeState.olderRandomNumbers = State.activeState.lastRandomNumbers;

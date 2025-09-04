@@ -289,7 +289,7 @@ PracticeSamples.samples.push([
 ]);
 PracticeSamples.samples.push([
     [",,,,,,,", ",,,,,,,", ",,,,,,,", ",,,,,,,", ",,,,,,,", ",,,,,,,", ",,,,,,,"],
-    ["Play until you are punished for failing ransom demands.", "Eliminate all frozen blocks"],
+    ["Play until a frozen block appears.", "Eliminate all frozen blocks"],
     function() {
         if ($("#board td.frozen").length > 0) {
             PracticeSamples.completeTask(0);
